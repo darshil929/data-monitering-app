@@ -1,0 +1,62 @@
+::-webkit-scrollbar {
+  display: none;
+}
+
+:root {
+  --primary-color: #333;
+  --secondary-color: #1c3fa8;
+  --dark-color: #002240;
+  --light-color: #f4f4f4;
+  --success-color: #5cb85c;
+  --error-color: #d9534f;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  height: 55px; 
+  width: 180px;
+}
+
+.flex {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.navContent {
+  width: 100%;
+  justify-content: space-between !important;
+}
+
+
+.css-cuefkz-MuiContainer-root{
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* .MuiBox-root {
+  width: 100vw !important;
+  overflow: hidden;
+} */
+
+.css-12zvdn5 {
+  /* width: 40vw !important; */
+  height: 70vh !important;
+  overflow: hidden !important;
+  border: #333 solid 1px;
+}
+
+/* .css-yfo96e {
+  padding: 0 !important;
+} */
+
+.graph-container {
+  height: 40em;
+  width: 75em;
+  background-color: #F0F8FF;
+  /* margin: 0em 0.5em; */
+}

@@ -1,6 +1,4 @@
 import Navbar from './components/Navbar'
-import Chart from './components/Chart';
-import BoxSx from './components/GraphContainer';
 
 function App() {
   return (

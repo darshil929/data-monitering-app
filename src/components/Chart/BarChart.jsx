@@ -20,7 +20,7 @@ const Graph = () => {
     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
     datasets: [
       {
-        label: 'Example Dataset',
+        label: 'Example1 Dataset',
         data: [12, 19, 3, 5, 2, 3],
         backgroundColor: 'rgba(75, 192, 192, 0.6)',
       },

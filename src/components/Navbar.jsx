@@ -16,11 +16,11 @@ import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 // import Typography from '@mui/material/Typography';
-import logo from '../images/logo.png';
-// import Card from './Card'
-// import Container from './Container'
-import GraphContainer from './GraphContainer';
-import Chart from './Chart';
+import criton from '../images/criton.png'
+import Tab1 from './Tabs/Tab1';
+import Tab2 from './Tabs/Tab2';
+import Tab3 from './Tabs/Tab3';
+import Tab4 from './Tabs/Tab4';
 
 const drawerWidth = 240;
 
@@ -34,7 +34,9 @@ function ResponsiveDrawer(props) {
 
     const drawer = (
         <div>
-            <Toolbar />
+            <Toolbar sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                <img src={criton} alt="" />
+            </Toolbar>
             <Divider />
             <List>
                 {['Tab-1', 'Tab-2', 'Tab-3', 'Tab-4'].map((text, index) => (
@@ -67,7 +69,7 @@ function ResponsiveDrawer(props) {
             >
                 <Toolbar>
                     <IconButton
-                        color="inherit"
+                        color="black"
                         aria-label="open drawer"
                         edge="start"
                         onClick={handleDrawerToggle}
@@ -76,8 +78,8 @@ function ResponsiveDrawer(props) {
                         <MenuIcon />
                     </IconButton>
                     <div className='navContent flex'>
-                        <img src={logo} alt="" />
-                        <img src={logo} alt="" />
+                        {/* <img src={criton} alt="" /> */}
+                        {/* <img src={logo} alt="" /> */}
                     </div>
                     {/* <Typography variant="h6" noWrap component="div">
             Responsive drawer
@@ -121,17 +123,7 @@ function ResponsiveDrawer(props) {
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
                 <Toolbar />
-                {/* <div className='graph-container flex'>
-                    <BoxSx>
-                        <Chart />
-                    </BoxSx>
-                    <BoxSx>
-
-                    </BoxSx>
-                </div> */}
-                <GraphContainer>
-                    
-                </GraphContainer>
+                <Tab3></Tab3>
             </Box>
         </Box>
     );

@@ -1,18 +1,18 @@
 import Table from "../Table"
-import PieChart  from "../Chart/PieChart"
+import BarChart from "../Chart/BarChart"
 
-function Tab2() {
+function Database2() {
   return (
-    <div>
+    <>
       <div>
             <div className="graph-container">
-                <PieChart></PieChart>
+                <BarChart></BarChart>
             </div>
             <h1>TABULAR DATA</h1>
             <Table></Table>
         </div>
-    </div>
+    </>
   )
 }
 
-export default Tab2
+export default Database2

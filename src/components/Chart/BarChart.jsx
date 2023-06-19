@@ -15,7 +15,7 @@ import Chart from 'chart.js/auto';
 //     }));
 //   };
 
-const Graph = () => {
+const BarChart = () => {
   const [GraphData, setGraphData] = useState({
     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
     datasets: [
@@ -34,4 +34,4 @@ const Graph = () => {
   );
 };
 
-export default Graph;
+export default BarChart;

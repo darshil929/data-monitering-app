@@ -1,8 +1,12 @@
 import Navbar from './components/Navbar'
+import { Routes , Route } from 'react-router-dom';
 
 function App() {
   return (
     <>
+    {/* <Routes>
+      <Route path="/" Component={Navbar} />
+    </Routes> */}
       <Navbar></Navbar>
       {/* <Chart></Chart> */}
       {/* <div className='graph-container flex'>

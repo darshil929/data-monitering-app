@@ -1,18 +1,18 @@
 import Table from "../Table"
-import LineChart from "../Chart/LineChart"
+import BarChart from "../Chart/BarChart"
 
-function Tab4() {
+function Database4() {
     return (
-        <div>
+        <>
             <div>
                 <div className="graph-container">
-                    <LineChart></LineChart>
+                    <BarChart></BarChart>
                 </div>
                 <h1>TABULAR DATA</h1>
                 <Table></Table>
             </div>
-        </div>
+        </>
     )
 }
 
-export default Tab4
+export default Database4

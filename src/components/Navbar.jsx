@@ -7,6 +7,8 @@ import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
+import { AiFillDatabase } from "react-icons/ai";
+// import { FaBeer } from 'react-icons/fa';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -16,15 +18,27 @@ import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 // import Typography from '@mui/material/Typography';
-import criton from '../images/criton.png'
-import Tab1 from './Tabs/Tab1';
-import Tab2 from './Tabs/Tab2';
-import Tab3 from './Tabs/Tab3';
-import Tab4 from './Tabs/Tab4';
+import criton from '../images/criton.png';
+import Database1 from './Databases/Database1';
+import Database2 from './Databases/Database2';
+import Database3 from './Databases/Database3';
+import Database4 from './Databases/Database4';
+import * as ReactDOM from "react-dom";
+import { Routes, Route } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Select, MenuItem } from '@mui/material';
 
 const drawerWidth = 240;
 
+const options = [
+    { value: 'option1', label: 'Option 1' },
+    { value: 'option2', label: 'Option 2' },
+    { value: 'option3', label: 'Option 3' },
+];
+
 function ResponsiveDrawer(props) {
+    const [selectedValue, setSelectedValue] = React.useState('');
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -34,12 +48,12 @@ function ResponsiveDrawer(props) {
 
     const drawer = (
         <div>
-            <Toolbar sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <Toolbar sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <img src={criton} alt="" />
             </Toolbar>
             <Divider />
             <List>
-                {['Tab-1', 'Tab-2', 'Tab-3', 'Tab-4'].map((text, index) => (
+                {/* {['Tab-1', 'Tab-2', 'Tab-3', 'Tab-4'].map((text, index) => (
                     <ListItem key={text} disablePadding>
                         <ListItemButton>
                             <ListItemIcon>
@@ -48,7 +62,60 @@ function ResponsiveDrawer(props) {
                             <ListItemText primary={text} />
                         </ListItemButton>
                     </ListItem>
-                ))}
+                ))} */}
+                <Link to="/">
+                    <ListItem>
+                        <ListItemButton>
+                            {/* <InboxIcon /> */}
+                            <AiFillDatabase />
+                            <ListItemText sx={{ marginLeft: 1 }}>
+                                <span style={{ fontSize: 20 }}>Database1</span>
+                            </ListItemText>
+                            <Select
+                                value={selectedValue}
+                                onChange={(event) => setSelectedValue(event.target.value)}
+                                displayEmpty
+                                renderValue={(value) => (value ? value : 'Select an option')}
+                            >
+                                {options.map((option) => (
+                                    <MenuItem key={option.value} value={option.value}>
+                                        {option.label}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </ListItemButton>
+                    </ListItem>
+                </Link>
+                <Link to="/Database2">
+                    <ListItem>
+                        <ListItemButton>
+                            <AiFillDatabase />
+                            <ListItemText sx={{ marginLeft: 1 }}>
+                                <span style={{ fontSize: 20 }}>Database2</span>
+                            </ListItemText>
+                        </ListItemButton>
+                    </ListItem>
+                </Link>
+                <Link to="/Database3">
+                    <ListItem>
+                        <ListItemButton>
+                            <AiFillDatabase />
+                            <ListItemText sx={{ marginLeft: 1 }}>
+                                <span style={{ fontSize: 20 }}>Database3</span>
+                            </ListItemText>
+                        </ListItemButton>
+                    </ListItem>
+                </Link>
+                <Link to="/Database4">
+                    <ListItem>
+                        <ListItemButton>
+                            <AiFillDatabase />
+                            <ListItemText sx={{ marginLeft: 1 }}>
+                                <span style={{ fontSize: 20 }}>Database4</span>
+                            </ListItemText>
+                        </ListItemButton>
+                    </ListItem>
+                </Link>
             </List>
             {/* <Divider /> */}
 
@@ -123,7 +190,12 @@ function ResponsiveDrawer(props) {
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
                 <Toolbar />
-                <Tab3></Tab3>
+                <Routes>
+                    <Route path="/" Component={Database1} />
+                    <Route path="/Database2" Component={Database2} />
+                    <Route path="/Database3" Component={Database3} />
+                    <Route path="/Database4" Component={Database4} />
+                </Routes>
             </Box>
         </Box>
     );

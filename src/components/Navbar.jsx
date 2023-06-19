@@ -28,11 +28,12 @@ import { Routes, Route } from "react-router-dom";
 import { HashRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Select, MenuItem } from '@mui/material';
+import Sidebar from './Sidebar';
 
 const drawerWidth = 240;
 
 const options = [
-    { value: 'option1', label: 'Option 1' },
+    { value: 'Database 1', label: 'Database 1' },
     { value: 'option2', label: 'Option 2' },
     { value: 'option3', label: 'Option 3' },
 ];
@@ -52,30 +53,19 @@ function ResponsiveDrawer(props) {
                 <img src={criton} alt="" />
             </Toolbar>
             <Divider />
-            <List>
-                {/* {['Tab-1', 'Tab-2', 'Tab-3', 'Tab-4'].map((text, index) => (
-                    <ListItem key={text} disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItemButton>
-                    </ListItem>
-                ))} */}
+            <div>
+                <Sidebar></Sidebar>
+            </div>
+            {/* <List>
                 <Link to="/">
                     <ListItem>
                         <ListItemButton>
-                            {/* <InboxIcon /> */}
                             <AiFillDatabase />
-                            <ListItemText sx={{ marginLeft: 1 }}>
-                                <span style={{ fontSize: 20 }}>Database1</span>
-                            </ListItemText>
                             <Select
                                 value={selectedValue}
                                 onChange={(event) => setSelectedValue(event.target.value)}
                                 displayEmpty
-                                renderValue={(value) => (value ? value : 'Select an option')}
+                                renderValue={(value) => (value ? value : 'Database 1')}
                             >
                                 {options.map((option) => (
                                     <MenuItem key={option.value} value={option.value}>
@@ -116,9 +106,9 @@ function ResponsiveDrawer(props) {
                         </ListItemButton>
                     </ListItem>
                 </Link>
-            </List>
+            </List> */}
             {/* <Divider /> */}
-
+            
         </div>
     );
 

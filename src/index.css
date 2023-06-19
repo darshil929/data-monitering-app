@@ -100,10 +100,17 @@ h1 {
 
 /* sidebar css */
 /* complete sidebar box */
+.css-12i7wg6-MuiPaper-root-MuiDrawer-paper {
+  overflow: hidden !important;
+}
+
+.loaSdv {
+  overflow-y: scroll !important;
+}
+
 .jlEUpY {
   position: relative !important;
   background-color: white !important;
-  overflow: hidden !important;
 }
 
 /* main tabs */

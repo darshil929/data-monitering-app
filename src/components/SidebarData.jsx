@@ -3,84 +3,111 @@ import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import * as IoIcons from "react-icons/io";
 import * as RiIcons from "react-icons/ri";
+import { AiFillDatabase } from "react-icons/ai";
 
 export const SidebarData = [
 {
-	title: "About Us",
-	path: "/about-us",
-	icon: <AiIcons.AiFillHome />,
-	iconClosed: <RiIcons.RiArrowDownSFill />,
-	iconOpened: <RiIcons.RiArrowUpSFill />,
+	title: "Database-1",
+	path: "/",
+	icon: <AiFillDatabase className="sidebar-icon" />,
+	iconClosed: <RiIcons.RiArrowDownSFill className="sidebar-icon" />,
+	iconOpened: <RiIcons.RiArrowUpSFill className="sidebar-icon" />,
 
 	subNav: [
 	{
-		title: "Our Aim",
-		path: "/about-us/aim",
-		icon: <IoIcons.IoIosPaper />,
+		title: "Pressure",
+		path: "/",
+		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
 	},
 	{
-		title: "Our Vision",
-		path: "/about-us/vision",
-		icon: <IoIcons.IoIosPaper />,
+		title: "Temperature",
+		path: "/",
+		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
+	},
+	{
+		title: "Voltage",
+		path: "/",
+		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
 	},
 	],
 },
+
 {
-	title: "Services",
-	path: "/services",
-	icon: <IoIcons.IoIosPaper />,
-	iconClosed: <RiIcons.RiArrowDownSFill />,
-	iconOpened: <RiIcons.RiArrowUpSFill />,
+	title: "Database-2",
+	path: "/Database2",
+	icon: <AiFillDatabase className="sidebar-icon" />,
+	iconClosed: <RiIcons.RiArrowDownSFill className="sidebar-icon" />,
+	iconOpened: <RiIcons.RiArrowUpSFill className="sidebar-icon"/>,
 
 	subNav: [
 	{
-		title: "Service 1",
-		path: "/services/services1",
-		icon: <IoIcons.IoIosPaper />,
-		cName: "sub-nav",
+		title: "Pressure",
+		path: "/",
+		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
 	},
 	{
-		title: "Service 2",
-		path: "/services/services2",
-		icon: <IoIcons.IoIosPaper />,
-		cName: "sub-nav",
+		title: "Temperature",
+		path: "/",
+		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
 	},
 	{
-		title: "Service 3",
-		path: "/services/services3",
-		icon: <IoIcons.IoIosPaper />,
+		title: "Voltage",
+		path: "/",
+		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
 	},
 	],
 },
-{
-	title: "Contact",
-	path: "/contact",
-	icon: <FaIcons.FaPhone />,
-},
-{
-	title: "Events",
-	path: "/events",
-	icon: <FaIcons.FaEnvelopeOpenText />,
 
-	iconClosed: <RiIcons.RiArrowDownSFill />,
-	iconOpened: <RiIcons.RiArrowUpSFill />,
+{
+	title: "Database-3",
+	path: "/Database3",
+	icon: <AiFillDatabase className="sidebar-icon" />,
+	iconClosed: <RiIcons.RiArrowDownSFill className="sidebar-icon" />,
+	iconOpened: <RiIcons.RiArrowUpSFill className="sidebar-icon" />,
 
 	subNav: [
 	{
-		title: "Event 1",
-		path: "/events/events1",
-		icon: <IoIcons.IoIosPaper />,
+		title: "Pressure",
+		path: "/",
+		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
 	},
 	{
-		title: "Event 2",
-		path: "/events/events2",
-		icon: <IoIcons.IoIosPaper />,
+		title: "Temperature",
+		path: "/",
+		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
+	},
+	{
+		title: "Voltage",
+		path: "/",
+		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
 	},
 	],
 },
+
 {
-	title: "Support",
-	path: "/support",
-	icon: <IoIcons.IoMdHelpCircle />,
+	title: "Database-4",
+	path: "/Database4",
+	icon: <AiFillDatabase className="sidebar-icon" />,
+	iconClosed: <RiIcons.RiArrowDownSFill className="sidebar-icon" />,
+	iconOpened: <RiIcons.RiArrowUpSFill className="sidebar-icon" />,
+
+	subNav: [
+	{
+		title: "Pressure",
+		path: "/",
+		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
+	},
+	{
+		title: "Temperature",
+		path: "/",
+		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
+	},
+	{
+		title: "Voltage",
+		path: "/",
+		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
+	},
+	],
 },
+
 ];

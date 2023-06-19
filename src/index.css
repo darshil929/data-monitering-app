@@ -25,7 +25,7 @@ img {
 
 a {
   text-decoration: none;
-  color: var(--secondary-color);
+  color: var(--secondary-color) !important;
 }
 
 h1 { 
@@ -56,6 +56,10 @@ h1 {
   position: absolute;
   width: 100% !important;
   height: 100% !important;
+}
+
+.sidebar-icon {
+  color: var(--secondary-color) !important;
 }
 
 /* CSS for mui class */
@@ -95,8 +99,27 @@ h1 {
 } */
 
 /* sidebar css */
-
+/* complete sidebar box */
 .jlEUpY {
   position: relative !important;
+  background-color: white !important;
+  overflow: hidden !important;
+}
+
+/* main tabs */
+.dnWkqv:hover {
+  background-color: white !important;
+  filter: brightness(.8) !important;
+  border-left: 8px solid var(--secondary-color) !important;
+}
+
+/* sub tabs */
+.iHZdKc {
+  background-color: white !important;
+}
+
+.iHZdKc:hover {
+  background-color: white !important;
+  filter: brightness(.8) !important;
 }
 

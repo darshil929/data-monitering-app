@@ -1,7 +1,8 @@
-import Navbar from './components/Navbar'
-import { Routes , Route } from 'react-router-dom';
+import React, { useState, useEffect ,createContext} from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
 import LoadingPage from './components/Loading';
-import { useState, useEffect } from 'react';
+import LineChart from './components/Chart/LineChart';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -18,10 +19,44 @@ const App = () => {
       {isLoading ? (
         <LoadingPage />
       ) : (
-        <Navbar></Navbar>
+        <SocketProvider>
+          <Navbar />
+        </SocketProvider>
       )}
     </div>
   );
 };
 
+const SocketContext = createContext();
+
+const SocketProvider = ({ children }) => {
+  const socket = new WebSocket("ws://localhost:8080");
+
+  useEffect(() => {
+    socket.addEventListener("open", () => {
+      console.log("WebSocket connection established");
+    });
+
+    socket.addEventListener("message", (event) => {
+      console.log("Connection Established");
+      // const data = JSON.parse(event.data);
+      // console.log(data)
+      // updateChartData(data);
+    });
+
+    // socket.addEventListener("close", () => {
+    //   console.log("WebSocket connection closed");
+    // });
+
+    // return () => {
+    //   socket.close();
+    // };
+  }, []);
+
+  return (
+    <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
+  );
+};
+
+export { SocketContext };
 export default App;

@@ -87,6 +87,14 @@ h1 {
   margin-right: 0 !important;
 }
 
+.css-1f9c5hm-MuiToolbar-root {
+  padding: 0px !important;
+}
+
+/* .css-12i7wg6-MuiPaper-root-MuiDrawer-paper {
+  border-right: none !important;
+} */
+
 /* .MuiBox-root {
   width: 100vw !important;
   overflow: hidden;

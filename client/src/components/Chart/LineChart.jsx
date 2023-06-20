@@ -1,7 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef,useContext } from "react";
+import { SocketContext } from '../../../src/App';
 import Chart from "chart.js/auto";
 
 const RealTimeDataChart = () => {
+  const socket = useContext(SocketContext);
   const chartRef = useRef(null);
   const [chartData, setChartData] = useState({
     labels: [],
@@ -31,25 +33,26 @@ const RealTimeDataChart = () => {
   });
 
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8080");
+    // const socket = new WebSocket("ws://localhost:8080");
 
-    socket.addEventListener("open", () => {
-      console.log("WebSocket connection established");
-    });
+    // socket.addEventListener("open", () => {
+    //   console.log("WebSocket connection established");
+    // });
 
     socket.addEventListener("message", (event) => {
+      // console.log('Connection Established')
       const data = JSON.parse(event.data);
       console.log(data)
       updateChartData(data);
     });
 
-    socket.addEventListener("close", () => {
-      console.log("WebSocket connection closed");
-    });
+    // socket.addEventListener("close", () => {
+    //   console.log("WebSocket connection closed");
+    // });
 
-    return () => {
-      socket.close();
-    };
+    // return () => {
+    //   socket.close();
+    // };
   }, []);
 
   useEffect(() => {

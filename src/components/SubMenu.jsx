@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { SidebarData } from "./SidebarData";
 
 const SidebarLink = styled(Link)`
 display: flex;
@@ -42,6 +43,14 @@ font-size: 18px;
 
 const SubMenu = ({ item }) => {
 const [subnav, setSubnav] = useState(false);
+
+// const navBarLen = () => {
+// 	if(SidebarData.sidesubNav.id > 3){
+		
+// 	}
+// }
+
+// navBarLen();
 
 const showSubnav = () => setSubnav(!subnav);
 

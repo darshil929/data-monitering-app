@@ -124,7 +124,7 @@ function ResponsiveDrawer(props) {
                     ml: { sm: `${drawerWidth}px` },
                 }}
             >
-                <Toolbar>
+                <Toolbar className='nav-toolbar'>
                     <IconButton
                         color="black"
                         aria-label="open drawer"
@@ -135,7 +135,7 @@ function ResponsiveDrawer(props) {
                         <MenuIcon />
                     </IconButton>
                     <div className='navContent flex'>
-                        {/* <img src={criton} alt="" /> */}
+                        <img src={criton} alt="" />
                         {/* <img src={logo} alt="" /> */}
                     </div>
                     {/* <Typography variant="h6" noWrap component="div">
@@ -179,7 +179,7 @@ function ResponsiveDrawer(props) {
                 component="main"
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
-                <Toolbar />
+                {/* <Toolbar /> */}
                 <Routes>
                     <Route path="/" Component={Database1} />
                     <Route path="/Database2" Component={Database2} />

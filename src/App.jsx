@@ -1,26 +1,27 @@
 import Navbar from './components/Navbar'
 import { Routes , Route } from 'react-router-dom';
+import LoadingPage from './components/Loading';
+import { useState, useEffect } from 'react';
 
-function App() {
+const App = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate an asynchronous operation
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
+
   return (
-    <>
-    {/* <Routes>
-      <Route path="/" Component={Navbar} />
-    </Routes> */}
-      <Navbar></Navbar>
-      {/* <Chart></Chart> */}
-      {/* <div className='graph-container flex'>
-                    <BoxSx>
-                        <Chart />
-                    </BoxSx>
-                    <BoxSx>
-
-                    </BoxSx>
-                </div> */}
-      {/* <div className='graph-container flex'>
-      </div> */}
-    </>
+    <div className="app">
+      {isLoading ? (
+        <LoadingPage />
+      ) : (
+        <Navbar></Navbar>
+      )}
+    </div>
   );
-}
+};
 
 export default App;

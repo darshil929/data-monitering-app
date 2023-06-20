@@ -41,10 +41,15 @@ h1 {
 
 .navContent {
   width: 100%;
-  justify-content: space-between !important;
+  justify-content: flex-end !important;
+}
+
+.navContent img {
+  margin-right: 30px;
 }
 
 .graph-container {
+  margin-top: 64px;
   position: relative;
   width: 100%;
   height: 80vh; /* Set an initial height or adjust as needed */
@@ -60,6 +65,20 @@ h1 {
 
 .sidebar-icon {
   color: var(--secondary-color) !important;
+}
+
+.loading-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #CCCCCC;
+  height: 100vh !important;
+  width: 100vw !important;
+}
+
+.loading-page img {
+  height: 20vh;
+  width: 40vw;
 }
 
 /* CSS for mui class */
@@ -87,7 +106,7 @@ h1 {
 .css-zxtyt4-MuiPaper-root-MuiAppBar-root {
   background-color: white !important;
   box-shadow: none !important;
-  border-bottom: rgba(0, 0, 0, 0.12) solid 1px;
+  border-bottom: rgba(0, 0, 0, 0.12) solid 1px !important;
 }
 
 /* .css-hyum1k-MuiToolbar-root {
@@ -105,7 +124,11 @@ h1 {
 }
 
 .loaSdv {
-  overflow-y: scroll !important;
+  overflow-y: scroll !important;;
+}
+
+.loaSdv::-webkit-scrollbar {
+  display: none;
 }
 
 .jlEUpY {

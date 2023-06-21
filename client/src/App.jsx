@@ -38,7 +38,7 @@ const SocketProvider = ({ children }) => {
     });
 
     socket.addEventListener("message", (event) => {
-      console.log("Connection Established");
+      console.log("Message Received");
       // const data = JSON.parse(event.data);
       // console.log(data)
       // updateChartData(data);

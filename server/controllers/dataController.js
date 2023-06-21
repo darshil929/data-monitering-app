@@ -84,7 +84,7 @@ function generateAndAppendData() {
 
   sendRealtimeData(data);
 
-  setTimeout(generateAndAppendData, 3000); // Generate data every 1 second
+  setTimeout(generateAndAppendData, 100); // Generate data every 1 second
 }
 
 module.exports = {

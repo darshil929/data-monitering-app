@@ -4,7 +4,6 @@ import LineChart from "../Chart/LineChart"
 const Database1 = () => {
     return (
         <>
-            {/* <h1>Graphical Representation</h1> */}
             <div className="graph-container">
                 <LineChart></LineChart>
             </div>

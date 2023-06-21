@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef,useContext } from "react";
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import { SocketContext } from '../../../src/App';
-import Chart from "chart.js/auto";
+import Chart from 'chart.js/auto';
 
 const RealTimeDataChart = () => {
   const socket = useContext(SocketContext);
@@ -9,86 +9,82 @@ const RealTimeDataChart = () => {
     labels: [],
     datasets: [
       {
-        label: "Temperature",
+        label: 'Temperature',
         data: [],
         fill: false,
-        borderColor: "red",
+        borderColor: 'red',
         tension: 0.1,
       },
       {
-        label: "Humidity",
+        label: 'Humidity',
         data: [],
         fill: false,
-        borderColor: "blue",
+        borderColor: 'blue',
         tension: 0.1,
       },
       {
-        label: "Pressure",
+        label: 'Pressure',
         data: [],
         fill: false,
-        borderColor: "green",
+        borderColor: 'green',
         tension: 0.1,
       },
     ],
   });
 
   useEffect(() => {
-    // const socket = new WebSocket("ws://localhost:8080");
+    const updateChartData = (data) => {
+      setChartData((prevChartData) => {
+        const newChartData = { ...prevChartData };
 
-    // socket.addEventListener("open", () => {
-    //   console.log("WebSocket connection established");
-    // });
+        newChartData.labels.push(data.time);
+        newChartData.datasets[0].data.push(data.temperature);
+        newChartData.datasets[1].data.push(data.humidity);
+        newChartData.datasets[2].data.push(data.pressure);
 
-    socket.addEventListener("message", (event) => {
-      // console.log('Connection Established')
+        if (newChartData.labels.length > 200) {
+          newChartData.labels.shift();
+          newChartData.datasets[0].data.shift();
+          newChartData.datasets[1].data.shift();
+          newChartData.datasets[2].data.shift();
+        }
+
+        return newChartData;
+      });
+    };
+
+    const handleSocketMessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log(data)
       updateChartData(data);
-    });
+    };
 
-    // socket.addEventListener("close", () => {
-    //   console.log("WebSocket connection closed");
-    // });
+    socket.addEventListener('message', handleSocketMessage);
 
-    // return () => {
-    //   socket.close();
-    // };
+    return () => {
+      socket.removeEventListener('message', handleSocketMessage);
+    };
   }, []);
 
   useEffect(() => {
     if (chartRef.current) {
-      const ctx = chartRef.current.getContext("2d");
+      const ctx = chartRef.current.getContext('2d');
 
-      if (chartRef.current.chartInstance) {
-        chartRef.current.chartInstance.destroy();
+      if (!chartRef.current.chartInstance) {
+        chartRef.current.chartInstance = new Chart(ctx, {
+          type: 'line',
+          data: chartData,
+          options: {
+            animation: {
+              duration: 0, // Disable chart animation
+            },
+          },
+        });
+      } else {
+        chartRef.current.chartInstance.data = chartData;
+        chartRef.current.chartInstance.update();
       }
-
-      chartRef.current.chartInstance = new Chart(ctx, {
-        type: "line",
-        data: chartData,
-      });
     }
   }, [chartData]);
-
-  const updateChartData = (data) => {
-    setChartData((prevChartData) => {
-      const newChartData = { ...prevChartData };
-
-      newChartData.labels.push(data.time);
-      newChartData.datasets[0].data.push(data.temperature);
-      newChartData.datasets[1].data.push(data.humidity);
-      newChartData.datasets[2].data.push(data.pressure);
-
-      if (newChartData.labels.length > 10) {
-        newChartData.labels.shift();
-        newChartData.datasets[0].data.shift();
-        newChartData.datasets[1].data.shift();
-        newChartData.datasets[2].data.shift();
-      }
-
-      return newChartData;
-    });
-  };
 
   return (
     <div>

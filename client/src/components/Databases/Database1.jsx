@@ -1,16 +1,30 @@
-import Table from "../Table"
-import LineChart from "../Chart/LineChart"
+import React, { useRef } from 'react';
+import Table from '../Table';
+import RealTimeDataChart from '../Chart/LineChart';
 
 const Database1 = () => {
-    return (
-        <>
-            <div className="graph-container">
-                <LineChart></LineChart>
-            </div>
-            <h1>TABULAR DATA</h1>
-            <Table></Table>
-        </>
-    )
-}
+  const chartRef = useRef(null);
 
-export default Database1
+  const resetChartZoom = () => {
+    chartRef.current.getChartInstance().resetZoom();
+  };
+
+  const handleDownloadPDF = () => {
+    const chartInstance = chartRef.current.getChartInstance();
+    // Use chartInstance for further operations
+  };
+
+  return (
+    <>
+      <div className="graph-container">
+        <RealTimeDataChart ref={chartRef} />
+      </div>
+      <button onClick={resetChartZoom}>Reset</button>
+      <button onClick={handleDownloadPDF}>Download PDF</button>
+      <h1>Tabular Data</h1>
+      <Table />
+    </>
+  );
+};
+
+export default Database1;

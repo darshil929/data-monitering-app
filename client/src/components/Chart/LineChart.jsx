@@ -1,8 +1,11 @@
-import React, { useEffect, useState, useRef, useContext } from 'react';
+import React, { useEffect, useState, useRef,useContext, forwardRef, useImperativeHandle } from 'react';
 import { SocketContext } from '../../../src/App';
 import Chart from 'chart.js/auto';
+import zoomPlugin from 'chartjs-plugin-zoom';
 
-const RealTimeDataChart = () => {
+Chart.register(zoomPlugin);
+
+const RealTimeDataChart = forwardRef((props, ref) => {
   const socket = useContext(SocketContext);
   const chartRef = useRef(null);
   const [chartData, setChartData] = useState({
@@ -67,7 +70,7 @@ const RealTimeDataChart = () => {
 
   useEffect(() => {
     if (chartRef.current) {
-      const ctx = chartRef.current.getContext('2d');
+      const ctx = chartRef.current.getContext('2d', { willReadFrequently: true });
 
       if (!chartRef.current.chartInstance) {
         chartRef.current.chartInstance = new Chart(ctx, {
@@ -75,7 +78,25 @@ const RealTimeDataChart = () => {
           data: chartData,
           options: {
             animation: {
-              duration: 0, // Disable chart animation
+              duration: 0,
+            },
+            plugins: {
+              zoom: {
+                zoom: {
+                  wheel: {
+                    enabled: true,
+                    speed: 0.05,
+                  },
+                  drag: {
+                    enabled: true,
+                    modifierKey: 'shift',
+                  },
+                },
+                pan: {
+                  enabled: true,
+                  mode: 'xy',
+                },
+              },
             },
           },
         });
@@ -86,11 +107,22 @@ const RealTimeDataChart = () => {
     }
   }, [chartData]);
 
+  useImperativeHandle(ref, () => ({
+    getChartInstance: () => chartRef.current.chartInstance,
+    resetZoom: () => {
+      if (chartRef.current && chartRef.current.chartInstance) {
+        chartRef.current.chartInstance.resetZoom();
+      }
+    },
+  }));
+
   return (
     <div>
-      <canvas ref={chartRef} />
+      <div>
+        <canvas ref={chartRef} />
+      </div>
     </div>
   );
-};
+});
 
 export default RealTimeDataChart;

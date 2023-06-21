@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import LoadingPage from './components/Loading';
 import LineChart from './components/Chart/LineChart';
+import PDFGenerator from './components/Routing/PDFGenerator';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,6 +22,7 @@ const App = () => {
       ) : (
         <SocketProvider>
           <Navbar />
+          {/* <PDFGenerator/> */}
         </SocketProvider>
       )}
     </div>

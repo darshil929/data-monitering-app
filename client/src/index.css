@@ -81,6 +81,12 @@ h1 {
   width: 40vw;
 }
 
+.graph-options {
+  background-color: var(--secondary-color) !important;
+  margin: 10px !important;
+  /* min-width: 13vw !important; */
+}
+
 /* CSS for mui class */
 .css-cuefkz-MuiContainer-root{
   margin-left: 0 !important;

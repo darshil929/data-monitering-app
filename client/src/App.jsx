@@ -61,4 +61,5 @@ const SocketProvider = ({ children }) => {
 };
 
 export { SocketContext };
+export { SocketProvider };
 export default App;

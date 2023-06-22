@@ -18,7 +18,7 @@ const columns = [
 
 const StickyHeadTable = () => {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(200);
   const [tableData, setTableData] = useState(null);
   const socket = useContext(SocketContext);
 
@@ -34,11 +34,6 @@ const StickyHeadTable = () => {
   const updateTableData = (data) => {
     setTableData((prevTableData) => {
       const newTableData = [...(prevTableData || []), data];
-
-      if (newTableData.length > 200) {
-        newTableData.shift();
-      }
-
       return newTableData;
     });
   };
@@ -95,7 +90,7 @@ const StickyHeadTable = () => {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
+        rowsPerPageOptions={[200, 500, 1000]}
         component="div"
         count={tableData.length}
         rowsPerPage={rowsPerPage}

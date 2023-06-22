@@ -1,37 +1,136 @@
-import React, { useState } from 'react';
-import { Bar } from 'react-chartjs-2';
+import React, { useEffect, useState, useRef, useContext, forwardRef, useImperativeHandle } from 'react';
+import { SocketContext } from '../../../src/App';
 import Chart from 'chart.js/auto';
+import zoomPlugin from 'chartjs-plugin-zoom';
 
-// const updateChartData = () => {
-//     setChartData((prevChartData) => ({
-//       ...prevChartData,
-//       labels: ['New Label 1', 'New Label 2', 'New Label 3'],
-//       datasets: [
-//         {
-//           ...prevChartData.datasets[0],
-//           data: [10, 20, 30],
-//         },
-//       ],
-//     }));
-//   };
+Chart.register(zoomPlugin);
 
-const BarChart = () => {
-  const [GraphData, setGraphData] = useState({
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+const RealTimeDataChart = forwardRef((props, ref) => {
+  const socket = useContext(SocketContext);
+  const chartRef = useRef(null);
+  const [chartData, setChartData] = useState({
+    labels: [],
     datasets: [
       {
-        label: 'Example1 Dataset',
-        data: [12, 19, 3, 5, 2, 3],
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+        label: 'Temperature',
+        data: [],
+        backgroundColor: 'red',
+        borderColor: 'red',
+        borderWidth: 1,
+      },
+      {
+        label: 'Humidity',
+        data: [],
+        backgroundColor: 'blue',
+        borderColor: 'blue',
+        borderWidth: 1,
+      },
+      {
+        label: 'Pressure',
+        data: [],
+        backgroundColor: 'green',
+        borderColor: 'green',
+        borderWidth: 1,
       },
     ],
   });
 
+  useEffect(() => {
+    const updateChartData = (data) => {
+      setChartData((prevChartData) => {
+        const newChartData = { ...prevChartData };
+
+        newChartData.labels.push(data.time);
+        newChartData.datasets[0].data.push(data.temperature);
+        newChartData.datasets[1].data.push(data.humidity);
+        newChartData.datasets[2].data.push(data.pressure);
+
+        if (newChartData.labels.length > 200) {
+          newChartData.labels.shift();
+          newChartData.datasets[0].data.shift();
+          newChartData.datasets[1].data.shift();
+          newChartData.datasets[2].data.shift();
+        }
+
+        return newChartData;
+      });
+    };
+
+    const handleSocketMessage = (event) => {
+      const data = JSON.parse(event.data);
+      updateChartData(data);
+    };
+
+    socket.addEventListener('message', handleSocketMessage);
+
+    return () => {
+      socket.removeEventListener('message', handleSocketMessage);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (chartRef.current) {
+      const ctx = chartRef.current.getContext('2d', { willReadFrequently: true });
+
+      if (!chartRef.current.chartInstance) {
+        chartRef.current.chartInstance = new Chart(ctx, {
+          type: 'bar',
+          data: chartData,
+          options: {
+            animation: {
+              duration: 0,
+            },
+            plugins: {
+              zoom: {
+                zoom: {
+                  wheel: {
+                    enabled: true,
+                    speed: 0.05,
+                  },
+                  drag: {
+                    enabled: true,
+                    modifierKey: 'shift',
+                  },
+                },
+                pan: {
+                  enabled: true,
+                  mode: 'xy',
+                },
+              },
+            },
+            scales: {
+              x: {
+                stacked: true,
+              },
+              y: {
+                stacked: true,
+              },
+            },
+          },
+        });
+      } else {
+        chartRef.current.chartInstance.data = chartData;
+        chartRef.current.chartInstance.update();
+      }
+    }
+  }, [chartData]);
+
+  useImperativeHandle(ref, () => ({
+    getChartInstance: () => chartRef.current.chartInstance,
+    resetZoom: () => {
+      if (chartRef.current && chartRef.current.chartInstance) {
+        chartRef.current.chartInstance.resetZoom();
+      }
+    },
+  }));
+
   return (
     <div>
-      <Bar data={GraphData} />
+      <div>
+        <canvas ref={chartRef} />
+      </div>
     </div>
   );
-};
+});
 
-export default BarChart;
+export default RealTimeDataChart;

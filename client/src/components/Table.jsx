@@ -21,7 +21,7 @@ const RealTimeDataTable = forwardRef((props, ref) => {
   const socket = useContext(SocketContext);
   const [chartData, setChartData] = useState([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(200);
 
   useEffect(() => {
     const updateChartData = (data) => {
@@ -29,10 +29,6 @@ const RealTimeDataTable = forwardRef((props, ref) => {
         const newChartData = [...prevChartData];
 
         newChartData.push(data);
-
-        if (newChartData.length > 200) {
-          newChartData.shift();
-        }
 
         return newChartData;
       });
@@ -78,7 +74,7 @@ const RealTimeDataTable = forwardRef((props, ref) => {
           </TableHead>
           <TableBody>
             {chartData
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
               .map((row, index) => (
                 <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                   {columns.map((column) => {
@@ -95,7 +91,7 @@ const RealTimeDataTable = forwardRef((props, ref) => {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
+        rowsPerPageOptions={[200, 500, 1000]}
         component="div"
         count={chartData.length}
         rowsPerPage={rowsPerPage}

@@ -1,4 +1,6 @@
-import React, { useEffect, useState, useContext } from 'react';
+import * as React from 'react';
+import { SocketContext } from '../App';
+import { useEffect, useState, useContext, forwardRef, useImperativeHandle } from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,7 +9,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { SocketContext, SocketProvider } from '../App';
 
 const columns = [
   { id: 'time', label: 'Time', minWidth: 170 },
@@ -16,11 +17,38 @@ const columns = [
   { id: 'pressure', label: 'Pressure', minWidth: 170 },
 ];
 
-const StickyHeadTable = () => {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(200);
-  const [tableData, setTableData] = useState(null);
+const RealTimeDataTable = forwardRef((props, ref) => {
   const socket = useContext(SocketContext);
+  const [chartData, setChartData] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  useEffect(() => {
+    const updateChartData = (data) => {
+      setChartData((prevChartData) => {
+        const newChartData = [...prevChartData];
+
+        newChartData.push(data);
+
+        if (newChartData.length > 200) {
+          newChartData.shift();
+        }
+
+        return newChartData;
+      });
+    };
+
+    const handleSocketMessage = (event) => {
+      const data = JSON.parse(event.data);
+      updateChartData(data);
+    };
+
+    socket.addEventListener('message', handleSocketMessage);
+
+    return () => {
+      socket.removeEventListener('message', handleSocketMessage);
+    };
+  }, []);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -31,34 +59,9 @@ const StickyHeadTable = () => {
     setPage(0);
   };
 
-  const updateTableData = (data) => {
-    setTableData((prevTableData) => {
-      const newTableData = [...(prevTableData || []), data];
-      return newTableData;
-    });
-  };
-
-  useEffect(() => {
-    const handleSocketMessage = (event) => {
-      const data = JSON.parse(event.data);
-      updateTableData(data);
-    };
-
-    socket.addEventListener('message', handleSocketMessage);
-
-    return () => {
-      socket.removeEventListener('message', handleSocketMessage);
-    };
-  }, []);
-
-  if (!tableData) {
-    return null; // Render nothing if tableData is still null
-  }
-
-  const slicedData = tableData.slice(
-    page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage
-  );
+  useImperativeHandle(ref, () => ({
+    getChartData: () => chartData,
+  }));
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -67,32 +70,34 @@ const StickyHeadTable = () => {
           <TableHead>
             <TableRow>
               {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
+                <TableCell key={column.id} align="left" style={{ minWidth: column.minWidth }}>
                   {column.label}
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {slicedData.map((row, index) => (
-              <TableRow key={index}>
-                <TableCell>{row.time}</TableCell>
-                <TableCell>{row.temperature}</TableCell>
-                <TableCell>{row.humidity}</TableCell>
-                <TableCell>{row.pressure}</TableCell>
-              </TableRow>
-            ))}
+            {chartData
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row, index) => (
+                <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                  {columns.map((column) => {
+                    const value = row[column.id];
+                    return (
+                      <TableCell key={column.id} align="left">
+                        {value}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[200, 500, 1000]}
+        rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={tableData.length}
+        count={chartData.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
@@ -100,6 +105,6 @@ const StickyHeadTable = () => {
       />
     </Paper>
   );
-};
+});
 
-export default StickyHeadTable;
+export default RealTimeDataTable;

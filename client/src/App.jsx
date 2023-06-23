@@ -1,9 +1,8 @@
-import React, { useState, useEffect ,createContext} from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import LoadingPage from './components/Loading';
-import LineChart from './components/Chart/LineChart';
-import PDFGenerator from './components/Routing/PDFGenerator';
+import RealTimeDataTable from './components/Table'; // Import the modified table component
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,7 +21,9 @@ const App = () => {
       ) : (
         <SocketProvider>
           <Navbar />
-          {/* <PDFGenerator/> */}
+          <Routes>
+            <Route path="/chart" element={<RealTimeDataTable />} /> {/* Use the modified table component */}
+          </Routes>
         </SocketProvider>
       )}
     </div>
@@ -32,27 +33,20 @@ const App = () => {
 const SocketContext = createContext();
 
 const SocketProvider = ({ children }) => {
-  const socket = new WebSocket("ws://localhost:8080");
+  const socket = new WebSocket('ws://localhost:8080');
 
   useEffect(() => {
-    socket.addEventListener("open", () => {
-      console.log("WebSocket connection established");
+    socket.addEventListener('open', () => {
+      console.log('WebSocket connection established');
     });
 
-    socket.addEventListener("message", (event) => {
-      console.log("Message Received");
-      // const data = JSON.parse(event.data);
-      // console.log(data)
-      // updateChartData(data);
+    socket.addEventListener('close', () => {
+      console.log('WebSocket connection closed');
     });
 
-    // socket.addEventListener("close", () => {
-    //   console.log("WebSocket connection closed");
-    // });
-
-    // return () => {
-    //   socket.close();
-    // };
+    return () => {
+      socket.close();
+    };
   }, []);
 
   return (

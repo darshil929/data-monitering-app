@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "main": "main.js",
-  "homepage": "http://./",
+  "homepage": "./",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -18,8 +18,6 @@
     "chartjs-plugin-zoom": "^2.0.1",
     "hammerjs": "^2.0.8",
     "html2pdf.js": "^0.10.1",
-    "jspdf": "^2.5.1",
-    "jspdf-autotable": "^3.5.29",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
@@ -27,8 +25,7 @@
     "react-router-dom": "^6.13.0",
     "react-scripts": "5.0.1",
     "styled-components-mui": "^0.3.2",
-    "web-vitals": "^2.1.4",
-    "xlsx": "^0.18.5"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -57,9 +54,5 @@
   },
   "devDependencies": {
     "source-map-loader": "^4.0.1"
-  },
-  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  }
 }

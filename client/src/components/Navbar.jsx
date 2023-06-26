@@ -29,6 +29,7 @@ import { HashRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Select, MenuItem } from '@mui/material';
 import Sidebar from './Sidebar';
+import config from '../config.json'
 
 const drawerWidth = 240;
 

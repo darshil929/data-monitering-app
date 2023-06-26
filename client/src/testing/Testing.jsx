@@ -9,7 +9,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import config from '../config.json';
+import config from './config.json';
 import { Link } from 'react-router-dom';
 
 const columns = Object.keys(config.table);

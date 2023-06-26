@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import LoadingPage from './components/Loading';
 import RealTimeDataTable from './components/Table'; // Import the modified table component
+import Testing from './testing/Testing'
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,8 +23,9 @@ const App = () => {
         <SocketProvider>
           <Navbar />
           <Routes>
-            <Route path="/chart" element={<RealTimeDataTable />} /> {/* Use the modified table component */}
+            <Route path="/chart" element={<RealTimeDataTable />} /> Use the modified table component
           </Routes>
+          {/* <Testing></Testing> */}
         </SocketProvider>
       )}
     </div>

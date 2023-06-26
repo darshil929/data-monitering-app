@@ -1,0 +1,10 @@
+{
+    "clientLogo": "Image",
+    "defaultLogo": "../images/logo.png",
+    "table": {
+        "column1": "time",
+        "column2": "temperature",
+        "column3": "pressure",
+        "column4": "humidity"
+    }
+}

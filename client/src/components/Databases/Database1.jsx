@@ -21,8 +21,19 @@ import Select from '@mui/material/Select';
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import * as XLSX from "xlsx";
+import criton from "./criton.png";
 
 const Database1 = () => {
+
+  // Convert string to ArrayBuffer
+  const s2ab = (s) => {
+    const buf = new ArrayBuffer(s.length);
+    const view = new Uint8Array(buf);
+    for (let i = 0; i < s.length; i++) {
+      view[i] = s.charCodeAt(i) & 0xff;
+    }
+    return buf;
+  };
 
   const downloadTable = (format) => {
     const table = document.getElementById("table_with_data");
@@ -57,23 +68,72 @@ const Database1 = () => {
       downloadLink.download = "table.xlsx";
       downloadLink.click();
     } else if (format === "pdf") {
-      // Export to PDF
-      console.log("fghjkl")
       const doc = new jsPDF();
-      autoTable(doc, { html: "#table_with_data" });
+
+      const header = function (data) {
+        doc.setFontSize(18);
+        doc.setTextColor(40);
+        doc.text("Content", data.settings.margin.left, 35);
+        doc.addImage(
+          criton, // Replace with the path to your image file
+          "PNG",
+          data.settings.margin.left,
+          5,
+          60,
+          20
+        );
+        doc.text(
+          "Header bottom margin",
+          data.settings.margin.left,
+          doc.internal.pageSize.height - 20
+        );
+      };
+
+      const footer = function (data) {
+        const pageCount = doc.internal.getNumberOfPages();
+        doc.setFontSize(10);
+        doc.setTextColor(100);
+        doc.text(
+          "Page " + data.pageNumber + " of " + pageCount,
+          data.settings.margin.left,
+          doc.internal.pageSize.height - 10
+        );
+      };
+
+      // const additionalContent = function (data) {
+      //   doc.setFontSize(12);
+      //   doc.text(
+      //     "Additional content goes here.",
+      //     20,
+      //     doc.internal.pageSize.height - 200
+      //   );
+      // };
+
+      const tableHeaders = table.querySelectorAll("th");
+      const tableRows = table.querySelectorAll("tbody tr");
+
+      const headers = Array.from(tableHeaders).map((header) => header.textContent);
+      const data = Array.from(tableRows).map((row) =>
+        Array.from(row.querySelectorAll("td")).map((cell) => cell.textContent)
+      );
+
+      doc.autoTable({
+        head: [headers],
+        body: data,
+        startY: 50,
+        didDrawPage: function (data) {
+          header(data);
+          footer(data);
+          // additionalContent(data);
+        },
+      });
+
       doc.save("table.pdf");
     }
   };
 
-  // Convert string to ArrayBuffer
-  const s2ab = (s) => {
-    const buf = new ArrayBuffer(s.length);
-    const view = new Uint8Array(buf);
-    for (let i = 0; i < s.length; i++) {
-      view[i] = s.charCodeAt(i) & 0xff;
-    }
-    return buf;
-  };
+  
+  
 
   const [open, setOpen] = React.useState(false);
   const [age, setAge] = React.useState('');

@@ -14,8 +14,6 @@ import { Link } from 'react-router-dom';
 
 const columns = Object.keys(config.table);
 const column_val = Object.values(config.table);
-console.log(columns,"lol")
-console.log(column_val,"lol2")
 
 const RealTimeDataTable = forwardRef((props, ref) => {
     const socket = useContext(SocketContext);

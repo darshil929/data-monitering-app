@@ -4,128 +4,33 @@ import * as AiIcons from "react-icons/ai";
 import * as IoIcons from "react-icons/io";
 import * as RiIcons from "react-icons/ri";
 import { AiFillDatabase } from "react-icons/ai";
+import config from "../testing/config.json";
 
-// const navBarLen = () => {
-// 	if(subNav.id > 3){
+const a = Object.values(config.databases);
+const b = Object.keys(config.databases)
 
-// 	}
-// }
+const evenIndices_a = a.filter((_, index) => index % 2 === 0);
+const oddIndices_a = a.filter((_, index) => index % 2 !== 0);
+console.log(oddIndices_a,'oddindices_a')
 
-export const SidebarData = [
-{
-	title: "Database-1",
-	path: "/",
-	icon: <AiFillDatabase className="sidebar-icon" />,
-	iconClosed: <RiIcons.RiArrowDownSFill className="sidebar-icon" />,
-	iconOpened: <RiIcons.RiArrowUpSFill className="sidebar-icon" />,
+const oddIndices_b = b.filter((_, index) => index % 2 !== 0);
+console.log(oddIndices_b,'oddindices_b')
 
-	subNav: [
-	{
-		id: "1",
-		title: "Pressure",
-		path: "/",
-		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
-	},
-	{
-		id: "2",
-		title: "Temperature",
-		path: "/",
-		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
-	},
-	{
-		id: "3",
-		title: "Voltage",
-		path: "/",
-		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
-	},
-	],
-},
+// const subNav;
 
-{
-	title: "Database-2",
-	path: "/Database2",
-	icon: <AiFillDatabase className="sidebar-icon" />,
-	iconClosed: <RiIcons.RiArrowDownSFill className="sidebar-icon" />,
-	iconOpened: <RiIcons.RiArrowUpSFill className="sidebar-icon"/>,
+const sidebarItems = evenIndices_a.map((dataBaseName, index) => ({
+  title: dataBaseName,
+  path: "/",
+  icon: <AiFillDatabase className="sidebar-icon" />,
+  iconClosed: <RiIcons.RiArrowDownSFill className="sidebar-icon" />,
+  iconOpened: <RiIcons.RiArrowUpSFill className="sidebar-icon" />,
+	subNav: oddIndices_b.map((tableName,index) => ({
+      title: tableName,
+      path: "/",
+      icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
+	  iconClosed: <RiIcons.RiArrowDownSFill className="sidebar-icon" />,
+  iconOpened: <RiIcons.RiArrowUpSFill className="sidebar-icon" />,
+    }))
+}));
 
-	subNav: [
-	{
-		id: "1",
-		title: "Pressure",
-		path: "/",
-		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
-	},
-	{
-		id: "2",
-		title: "Temperature",
-		path: "/",
-		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
-	},
-	{
-		id: "3",
-		title: "Voltage",
-		path: "/",
-		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
-	},
-	],
-},
-
-{
-	title: "Database-3",
-	path: "/Database3",
-	icon: <AiFillDatabase className="sidebar-icon" />,
-	iconClosed: <RiIcons.RiArrowDownSFill className="sidebar-icon" />,
-	iconOpened: <RiIcons.RiArrowUpSFill className="sidebar-icon" />,
-
-	subNav: [
-	{
-		id: "1",
-		title: "Pressure",
-		path: "/",
-		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
-	},
-	{
-		id: "2",
-		title: "Temperature",
-		path: "/",
-		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
-	},
-	{
-		id: "3",
-		title: "Voltage",
-		path: "/",
-		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
-	},
-	],
-},
-
-{
-	title: "Database-4",
-	path: "/Database4",
-	icon: <AiFillDatabase className="sidebar-icon" />,
-	iconClosed: <RiIcons.RiArrowDownSFill className="sidebar-icon" />,
-	iconOpened: <RiIcons.RiArrowUpSFill className="sidebar-icon" />,
-
-	subNav: [
-	{
-		id: "1",
-		title: "Pressure",
-		path: "/",
-		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
-	},
-	{
-		id: "2",
-		title: "Temperature",
-		path: "/",
-		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
-	},
-	{
-		id: "3",
-		title: "Voltage",
-		path: "/",
-		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
-	},
-	],
-},
-];
-
+export const SidebarData = sidebarItems;

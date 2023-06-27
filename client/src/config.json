@@ -6,5 +6,88 @@
         "column2": "temperature",
         "column3": "humidity",
         "column4": "pressure"
+    },
+    "databases": {
+        "db1": "db_name1",
+        "db1_table": {
+            "table1": {
+                "column1": "time",
+                "column2": "temperature",
+                "column3": "humidity",
+                "column4": "pressure"
+            },
+            "table2": {
+                "column1": "time",
+                "column2": "temperature",
+                "column3": "humidity",
+                "column4": "pressure"
+            },
+            "table3": {
+                "column1": "time",
+                "column2": "temperature",
+                "column3": "humidity",
+                "column4": "pressure"
+            },
+            "table4": {
+                "column1": "time",
+                "column2": "temperature",
+                "column3": "humidity",
+                "column4": "pressure"
+            }
+        },
+        "db2": "db_name2",
+        "db2_table": {
+            "table1": {
+                "column1": "time",
+                "column2": "temperature",
+                "column3": "humidity",
+                "column4": "pressure"
+            },
+            "table2": {
+                "column1": "time",
+                "column2": "temperature",
+                "column3": "humidity",
+                "column4": "pressure"
+            },
+            "table3": {
+                "column1": "time",
+                "column2": "temperature",
+                "column3": "humidity",
+                "column4": "pressure"
+            },
+            "table4": {
+                "column1": "time",
+                "column2": "temperature",
+                "column3": "humidity",
+                "column4": "pressure"
+            }
+        },
+        "db3": "db_name3",
+        "db3_table": {
+            "table1": {
+                "column1": "time",
+                "column2": "temperature",
+                "column3": "humidity",
+                "column4": "pressure"
+            },
+            "table2": {
+                "column1": "time",
+                "column2": "temperature",
+                "column3": "humidity",
+                "column4": "pressure"
+            },
+            "table3": {
+                "column1": "time",
+                "column2": "temperature",
+                "column3": "humidity",
+                "column4": "pressure"
+            },
+            "table4": {
+                "column1": "time",
+                "column2": "temperature",
+                "column3": "humidity",
+                "column4": "pressure"
+            }
+        }
     }
 }

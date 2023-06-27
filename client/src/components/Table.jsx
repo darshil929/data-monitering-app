@@ -86,7 +86,7 @@ const RealTimeDataTable = forwardRef((props, ref) => {
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
-                            {console.log(config.table, 'sdhbgsdfhdh')}
+                            {/* {console.log(config.table, 'sdhbgsdfhdh')} */}
                             {columns.map((c) => (
                                 <TableCell align="center" key={c}>
                                     <Link to={`/table/${c}`}>
@@ -103,9 +103,9 @@ const RealTimeDataTable = forwardRef((props, ref) => {
                                 <TableRow hover role="checkbox" tabIndex={-1} key={c}>
 
                                     {column_val.map((c) => {
-                                        console.log(c, 'pvgud')
-                                        console.log("kreena",row);
-                                        console.log("k",row[c]);
+                                        // console.log(c, 'pvgud')
+                                        // console.log("kreena",row);
+                                        // console.log("k",row[c]);
                                         const value = row[c]
                                         return (
                                             <TableCell key={c} align="center">

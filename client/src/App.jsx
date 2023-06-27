@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import LoadingPage from './components/Loading';
 import RealTimeDataTable from './components/Table'; // Import the modified table component
 import Testing from './testing/Testing'
+import config from './testing/config.json'
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);

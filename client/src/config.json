@@ -8,22 +8,15 @@
         "column4": "pressure"
     },
     "databases": {
-        "db1": "db_name1",
+        "db1": "SPF_F1_DAY",
         "db1_columns": {
             "column1": "time",
             "column2": "temperature",
             "column3": "humidity",
             "column4": "pressure"
         },
-        "db2": "db_name2",
+        "db2": "SPF_F1_SHIFT",
         "db2_columns": {
-            "column1": "time",
-            "column2": "temperature",
-            "column3": "humidity",
-            "column4": "pressure"
-        },
-        "db3": "db_name3",
-        "db3_columns": {
             "column1": "time",
             "column2": "temperature",
             "column3": "humidity",

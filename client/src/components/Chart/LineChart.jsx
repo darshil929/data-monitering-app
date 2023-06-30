@@ -1,38 +1,46 @@
-import React, { useEffect, useState, useRef,useContext, forwardRef, useImperativeHandle } from 'react';
+import React, { useEffect, useState, useRef, useContext, forwardRef, useImperativeHandle } from 'react';
 import { SocketContext } from '../../../src/App';
 import Chart from 'chart.js/auto';
 import zoomPlugin from 'chartjs-plugin-zoom';
+import config from '../../config.json';
 
 Chart.register(zoomPlugin);
+
+const db_values = Object.values(config.databases);
+const evenIndices_db_values = db_values.filter((_, index) => index % 2 === 0);
+const tabNames = evenIndices_db_values;
+
+const oddIndices_db_values = db_values.filter((_, index) => index % 2 !== 0);
+let x;
+oddIndices_db_values.map((item, index) => {
+  x = item;
+  return x;
+});
+
+const y = Object.values(x);
+const axesName = y.filter((_, index) => index !== 0);
+
+const getRandomColor = () => {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
 
 const RealTimeDataChart = forwardRef((props, ref) => {
   const socket = useContext(SocketContext);
   const chartRef = useRef(null);
   const [chartData, setChartData] = useState({
     labels: [],
-    datasets: [
-      {
-        label: 'Temperature',
-        data: [],
-        fill: false,
-        borderColor: 'red',
-        tension: 0.1,
-      },
-      {
-        label: 'Humidity',
-        data: [],
-        fill: false,
-        borderColor: 'blue',
-        tension: 0.1,
-      },
-      {
-        label: 'Pressure',
-        data: [],
-        fill: false,
-        borderColor: 'green',
-        tension: 0.1,
-      },
-    ],
+    datasets: axesName.map((item, index) => ({
+      label: item,
+      data: [],
+      fill: false,
+      borderColor: getRandomColor(),
+      tension: 0.1,
+    })),
   });
 
   useEffect(() => {
@@ -40,16 +48,25 @@ const RealTimeDataChart = forwardRef((props, ref) => {
       setChartData((prevChartData) => {
         const newChartData = { ...prevChartData };
 
+        const filteredData = {};
+        for (const key in data) {
+          if (typeof data[key] === 'number') {
+            filteredData[key] = data[key];
+          }
+        }
+
+        console.log(filteredData);
+
         newChartData.labels.push(data.time);
-        newChartData.datasets[0].data.push(data.temperature);
-        newChartData.datasets[1].data.push(data.humidity);
-        newChartData.datasets[2].data.push(data.pressure);
+        axesName.forEach((item, index) => {
+          newChartData.datasets[index].data.push(filteredData[item]);
+        });
 
         if (newChartData.labels.length > 200) {
           newChartData.labels.shift();
-          newChartData.datasets[0].data.shift();
-          newChartData.datasets[1].data.shift();
-          newChartData.datasets[2].data.shift();
+          axesName.forEach((item, index) => {
+            newChartData.datasets[index].data.shift();
+          });
         }
 
         return newChartData;

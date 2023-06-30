@@ -32,7 +32,6 @@ function generateRandomData() {
     const pressure = chance.integer({ min: 800, max: 1200 });
 
   return {
-    timestamp,
     date,
     month,
     time,

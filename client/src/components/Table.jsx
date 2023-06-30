@@ -12,9 +12,9 @@ import TableRow from '@mui/material/TableRow';
 import config from '../config.json';
 import { Link } from 'react-router-dom';
 
-const columns = Object.keys(config.table);
+const columns = Object.keys(config.databases.db1_columns);
 // console.log(columns,'columns')
-const column_val = Object.values(config.table);
+const column_val = Object.values(config.databases.db1_columns);
 // console.log(column_val,'column_val')
 
 const db_values = Object.values(config.databases);
@@ -112,7 +112,7 @@ const RealTimeDataTable = forwardRef((props, ref) => {
                             {/* {console.log(config.table, 'sdhbgsdfhdh')} */}
                             {columns.map((c) => (
                                 <TableCell align="center" key={c}>
-                                        {config.table[c]}
+                                        {config.databases.db1_columns[c]}
                                 </TableCell>
                             ))}
                         </TableRow>

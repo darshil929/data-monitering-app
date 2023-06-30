@@ -1,12 +1,6 @@
 {
     "clientLogo": "Image",
     "defaultLogo": "../images/logo.png",
-    "table": {
-        "column1": "time",
-        "column2": "temperature",
-        "column3": "humidity",
-        "column4": "pressure"
-    },
     "databases": {
         "db1": "SPF_F1_DAY",
         "db1_columns": {

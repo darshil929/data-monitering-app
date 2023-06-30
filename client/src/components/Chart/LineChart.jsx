@@ -55,7 +55,7 @@ const RealTimeDataChart = forwardRef((props, ref) => {
           }
         }
 
-        console.log(filteredData);
+        // console.log(filteredData);
 
         newChartData.labels.push(data.time);
         axesName.forEach((item, index) => {

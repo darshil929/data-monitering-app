@@ -45,7 +45,7 @@ font-size: 18px;
 
 
 const SubMenu = ({ item }) => {
-	console.log(item,'submenuwala')
+	// console.log(item,'submenuwala')
 const [subnav, setSubnav] = useState(false);
 const [subSubnav, setSubSubnav] = useState(false);
 

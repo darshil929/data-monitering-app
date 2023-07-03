@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef, useContext, forwardRef, useImperativeHandle } from 'react';
-import { SocketContext } from '../../../src/App';
 import Chart from 'chart.js/auto';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import config from '../../config.json';
+import axios from 'axios';
 
 Chart.register(zoomPlugin);
 
@@ -30,7 +30,7 @@ const getRandomColor = () => {
 };
 
 const RealTimeDataChart = forwardRef((props, ref) => {
-  const socket = useContext(SocketContext);
+  // const socket = useContext(SocketContext);
   const chartRef = useRef(null);
   const [chartData, setChartData] = useState({
     labels: [],
@@ -44,55 +44,63 @@ const RealTimeDataChart = forwardRef((props, ref) => {
   });
 
   useEffect(() => {
-    const updateChartData = (data) => {
-      setChartData((prevChartData) => {
-        const newChartData = { ...prevChartData };
+    // const updateChartData = (data) => {
+    //   setChartData((prevChartData) => {
+    //     const newChartData = { ...prevChartData };
 
-        const filteredData = {};
-        for (const key in data) {
-          if (typeof data[key] === 'number') {
-            filteredData[key] = data[key];
-          }
-        }
+    //     newChartData.labels.push(data.time);
+    //     axesName.forEach((item, index) => {
+    //       newChartData.datasets[index].data.push(data[item]);
+    //     });
 
-        // console.log(filteredData);
+    //     if (newChartData.labels.length > 200) {
+    //       newChartData.labels.shift();
+    //       axesName.forEach((item, index) => {
+    //         newChartData.datasets[index].data.shift();
+    //       });
+    //     }
 
-        newChartData.labels.push(data.time);
-        axesName.forEach((item, index) => {
-          newChartData.datasets[index].data.push(filteredData[item]);
-        });
+    //     return newChartData;
+    //   });
+    // };
 
-        if (newChartData.labels.length > 200) {
-          newChartData.labels.shift();
-          axesName.forEach((item, index) => {
-            newChartData.datasets[index].data.shift();
-          });
-        }
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/data');
+        setChartData(response.data)
 
-        return newChartData;
-      });
+        // updateChartData(response.data);
+
+      } catch (error) {
+        console.error(error);
+      }
     };
 
-    const handleSocketMessage = (event) => {
-      const data = JSON.parse(event.data);
-      updateChartData(data);
-    };
+    fetchData();
 
-    socket.addEventListener('message', handleSocketMessage);
+    // Uncomment the following code if using WebSocket messages
+    // const handleSocketMessage = (event) => {
+    //   const data = JSON.parse(event.data);
+    //   updateChartData(data);
+    // };
 
-    return () => {
-      socket.removeEventListener('message', handleSocketMessage);
-    };
+    // socket.addEventListener('message', handleSocketMessage);
+
+    // return () => {
+    //   socket.removeEventListener('message', handleSocketMessage);
+    // };
+
   }, []);
 
   useEffect(() => {
     if (chartRef.current) {
       const ctx = chartRef.current.getContext('2d', { willReadFrequently: true });
-
+      console.log(chartData,'ok')
       if (!chartRef.current.chartInstance) {
         chartRef.current.chartInstance = new Chart(ctx, {
           type: 'line',
           data: chartData,
+          i: console.log(chartData,'okkk'),
           options: {
             animation: {
               duration: 0,

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { SocketContext } from '../App';
 import { useEffect, useState, useContext, forwardRef, useImperativeHandle } from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -10,6 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import config from '../config.json';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const columns = Object.keys(config.databases.db1_columns);
@@ -28,18 +28,12 @@ const oddIndices_db_values = db_values.filter((_, index) => index % 2 !== 0);
 
 let x;
 oddIndices_db_values.map((item, index) => {
-	x = item;
-	return x;
+    x = item;
+    return x;
 })
-
 // const columns = Object.values(x)
-
 // const column_val = Object.keys(x)
-
-
-
 const RealTimeDataTable = forwardRef((props, ref) => {
-    const socket = useContext(SocketContext);
     const [chartData, setChartData] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(200);
@@ -55,16 +49,30 @@ const RealTimeDataTable = forwardRef((props, ref) => {
             });
         };
 
-        const handleSocketMessage = (event) => {
-            const data = JSON.parse(event.data);
-            updateChartData(data);
+        // const handleSocketMessage = (event) => {
+        //     const data = JSON.parse(event.data);
+        //     updateChartData(data);
+        // };
+
+        // socket.addEventListener('message', handleSocketMessage);
+
+        // return () => {
+        //     socket.removeEventListener('message', handleSocketMessage);
+        // };
+
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/api/data'); // Replace with your API endpoint
+                setChartData(response.data)
+                // updateChartData(responseData);
+
+            } catch (error) {
+                console.error(error);
+                // Handle any errors
+            }
         };
 
-        socket.addEventListener('message', handleSocketMessage);
-
-        return () => {
-            socket.removeEventListener('message', handleSocketMessage);
-        };
+        fetchData();
     }, []);
 
     const handleChangePage = (event, newPage) => {
@@ -109,30 +117,28 @@ const RealTimeDataTable = forwardRef((props, ref) => {
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
-                            {/* {console.log(config.table, 'sdhbgsdfhdh')} */}
+                            {console.log(columns, 'sdhbgsdfhdh')}
                             {columns.map((c) => (
                                 <TableCell align="center" key={c}>
-                                        {config.databases.db1_columns[c]}
+                                    {config.databases.db1_columns[c]}
                                 </TableCell>
                             ))}
                         </TableRow>
                     </TableHead>
                     <TableBody>
+                        {console.log(chartData, "chartttttttttttttttttttttttttttttttttDataaaaaaaaaa")}
                         {chartData
                             .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
-                            .map((row, c) => (  
+                            .map((row, c) => (
                                 <TableRow hover role="checkbox" tabIndex={-1} key={c}>
 
                                     {column_val.map((c) => {
-                                        // console.log(c, 'pvgud')
-                                        // console.log("kreena",row);
-                                        // console.log("k",row[c]);
                                         const value = row[c]
                                         return (
                                             <TableCell key={c} align="center">
                                                 {value}
                                             </TableCell>
-                                          );
+                                        );
 
                                     })}
                                 </TableRow>

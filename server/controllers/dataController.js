@@ -1,20 +1,9 @@
 const fs = require("fs");
-const WebSocket = require("ws");
 const csv = require("csv-parser");
 const Chance = require("chance");
 const chance = new Chance();
-
 const filePath = "data.csv";
 let clients = [];
-
-function handleWebSocket(socket) {
-  console.log("Client connected")
-  clients.push(socket);
-
-  socket.on("close", () => {
-    clients = clients.filter((client) => client !== socket);
-  });
-}
 
 function sendRealtimeData(data) {
   clients.forEach((client) => {
@@ -22,7 +11,7 @@ function sendRealtimeData(data) {
   });
 }
 
-function generateRandomData() {
+const generateRandomData = () => {
     const timestamp = Date.now();
     const date = new Date(timestamp).toLocaleDateString();
     const month = new Date(timestamp).toLocaleString("default", {month: "long",});
@@ -50,6 +39,7 @@ const getData = (req, res) => {
       results.push(data);
     })
     .on("end", () => {
+      console.log(results)
       res.json(results);
     })
     .on("error", (error) => {
@@ -70,8 +60,8 @@ function generateAndAppendData() {
     `${
       fileExists
         ? ""
-        : "Timestamp,Date,Month,Time,Pressure,Temperature,Humidity\n"
-    }${data.timestamp},${data.date},${data.month},${data.time},${
+        : "Date,Month,Time,Pressure,Temperature,Humidity\n"
+    }${data.date},${data.month},${data.time},${
       data.pressure
     },${data.temperature},${data.humidity}\n`,
     (error) => {
@@ -87,10 +77,7 @@ function generateAndAppendData() {
 }
 
 module.exports = {
-  handleWebSocket,
   sendRealtimeData,
   getData,
   generateAndAppendData,
 };
-
-

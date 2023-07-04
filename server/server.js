@@ -40,6 +40,3 @@ app.listen(port, () => {
   });
   dataController.startDataGeneration();
 });
-
-
-

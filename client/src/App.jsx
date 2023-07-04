@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import LoadingPage from './components/Loading';
-import RealTimeDataTable from './components/Table';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,9 +20,6 @@ const App = () => {
       ) : (
         <div>
           <Navbar />
-          <Routes>
-            <Route path="/chart" element={<RealTimeDataTable />} />
-          </Routes>
         </div>
       )}
     </div>

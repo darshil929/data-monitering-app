@@ -33,11 +33,6 @@ import config from '../config.json'
 
 const drawerWidth = 240;
 
-const options = [
-    { value: 'Database 1', label: 'Database 1' },
-    { value: 'option2', label: 'Option 2' },
-    { value: 'option3', label: 'Option 3' },
-];
 
 function ResponsiveDrawer(props) {
     const [selectedValue, setSelectedValue] = React.useState('');
@@ -57,58 +52,6 @@ function ResponsiveDrawer(props) {
             <div>
                 <Sidebar></Sidebar>
             </div>
-            {/* <List>
-                <Link to="/">
-                    <ListItem>
-                        <ListItemButton>
-                            <AiFillDatabase />
-                            <Select
-                                value={selectedValue}
-                                onChange={(event) => setSelectedValue(event.target.value)}
-                                displayEmpty
-                                renderValue={(value) => (value ? value : 'Database 1')}
-                            >
-                                {options.map((option) => (
-                                    <MenuItem key={option.value} value={option.value}>
-                                        {option.label}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </ListItemButton>
-                    </ListItem>
-                </Link>
-                <Link to="/Database2">
-                    <ListItem>
-                        <ListItemButton>
-                            <AiFillDatabase />
-                            <ListItemText sx={{ marginLeft: 1 }}>
-                                <span style={{ fontSize: 20 }}>Database2</span>
-                            </ListItemText>
-                        </ListItemButton>
-                    </ListItem>
-                </Link>
-                <Link to="/Database3">
-                    <ListItem>
-                        <ListItemButton>
-                            <AiFillDatabase />
-                            <ListItemText sx={{ marginLeft: 1 }}>
-                                <span style={{ fontSize: 20 }}>Database3</span>
-                            </ListItemText>
-                        </ListItemButton>
-                    </ListItem>
-                </Link>
-                <Link to="/Database4">
-                    <ListItem>
-                        <ListItemButton>
-                            <AiFillDatabase />
-                            <ListItemText sx={{ marginLeft: 1 }}>
-                                <span style={{ fontSize: 20 }}>Database4</span>
-                            </ListItemText>
-                        </ListItemButton>
-                    </ListItem>
-                </Link>
-            </List> */}
-            {/* <Divider /> */}
             
         </div>
     );

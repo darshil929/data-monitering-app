@@ -87,7 +87,7 @@ const csv = require("csv-parser");
 const Chance = require("chance");
 const chance = new Chance();
 const filePath = "data.csv";
-let fetchedData = [];
+let fetchedData = []; 
 let lastestDataIndex = -1;
 
 function generateRandomData() {
@@ -127,7 +127,7 @@ function readDataFromCSV() {
 }
 
 async function initializeData() {
-  if (fs.existsSync(filePath)) {
+  if (fs.existsSync(filePath)) { 
     readDataFromCSV = await readDataFromCSV();
     lastestDataIndex = readDataFromCSV.length - 1;
     console.log("CSV file already exists. Appending data...");

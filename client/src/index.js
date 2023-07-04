@@ -7,6 +7,7 @@ import { HashRouter } from 'react-router-dom'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  // HashRouter works as substitute to BrowserRouter , as BrowserRouter doesn't work well in electron.js
     <HashRouter>
       <App />
     </HashRouter>

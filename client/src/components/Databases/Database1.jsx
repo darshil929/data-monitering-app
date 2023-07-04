@@ -1,27 +1,24 @@
 import React, { useRef } from 'react';
-import Table from '../Table';
-import RealTimeDataChart from '../Chart/LineChart';
+
 import { Button } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import Tooltip from '@mui/material/Tooltip';
+import Box from '@mui/material/Box';
+
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import ZoomOutIcon from '@mui/icons-material/ZoomOut';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import Tooltip from '@mui/material/Tooltip';
-import Box from '@mui/material/Box';
-// import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import InputLabel from '@mui/material/InputLabel';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+
+import Table from '../Table';
+import RealTimeDataChart from '../Chart/LineChart';
+import criton from "./criton.png";
+
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import * as XLSX from "xlsx";
-import criton from "./criton.png";
 
 const Database1 = () => {
 
@@ -131,9 +128,6 @@ const Database1 = () => {
       doc.save("table.pdf");
     }
   };
-
-  
-  
 
   const [open, setOpen] = React.useState(false);
   const [age, setAge] = React.useState('');

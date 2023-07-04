@@ -1,38 +1,24 @@
 import * as React from 'react';
+import * as ReactDOM from "react-dom";
+import { Routes, Route,Link } from "react-router-dom";
+
 import PropTypes from 'prop-types';
+
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import { AiFillDatabase } from "react-icons/ai";
-// import { FaBeer } from 'react-icons/fa';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
-import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
-// import Typography from '@mui/material/Typography';
+
+import MenuIcon from '@mui/icons-material/Menu';
+
 import criton from '../images/criton.png';
 import Database1 from './Databases/Database1';
-import Database2 from './Databases/Database2';
-import Database3 from './Databases/Database3';
-import Database4 from './Databases/Database4';
-import * as ReactDOM from "react-dom";
-import { Routes, Route } from "react-router-dom";
-import { HashRouter } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { Select, MenuItem } from '@mui/material';
 import Sidebar from './Sidebar';
-import config from '../config.json'
 
 const drawerWidth = 240;
-
 
 function ResponsiveDrawer(props) {
     const [selectedValue, setSelectedValue] = React.useState('');
@@ -126,9 +112,6 @@ function ResponsiveDrawer(props) {
                 {/* <Toolbar /> */}
                 <Routes>
                     <Route path="/" Component={Database1} />
-                    <Route path="/Database2" Component={Database2} />
-                    <Route path="/Database3" Component={Database3} />
-                    <Route path="/Database4" Component={Database4} />
                 </Routes>
             </Box>
         </Box>

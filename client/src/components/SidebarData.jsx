@@ -3,8 +3,6 @@ import * as IoIcons from "react-icons/io";
 import * as RiIcons from "react-icons/ri";
 import { AiFillDatabase } from "react-icons/ai";
 import config from "../config.json";
-import Database1 from "./Databases/Database1";
-import Database2 from "./Databases/Database2";
 
 const db_values = Object.values(config.databases);
 // const db_keys = Object.keys(config.databases)

@@ -1,6 +1,6 @@
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   display: none;
-}
+} */
 
 :root {
   --primary-color: #002D62;
@@ -188,3 +188,27 @@ h1 {
   background-color: white !important;
   filter: brightness(.8) !important;
 } */
+
+
+/* dhjf */
+.container{
+  width:500px;
+  max-width: 350px;
+  overflow-x:scroll;
+
+}
+
+.containerBody{
+  height: 500px;
+
+}
+
+.chart-container {
+  width: 100%;
+  overflow-x: scroll;
+  padding: 10px;
+}
+
+.chart-wrapper {
+  width: fit-content;
+}

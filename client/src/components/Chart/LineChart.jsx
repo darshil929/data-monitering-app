@@ -30,12 +30,13 @@ const getRandomColor = () => {
 };
 
 const RealTimeDataChart = forwardRef((props, ref) => {
-  // const socket = useContext(SocketContext);
   const chartRef = useRef(null);
+
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: axesName.map((item, index) => ({
       label: item,
+      i: console.log(item,'capital column name'),
       data: [],
       fill: false,
       borderColor: getRandomColor(),
@@ -44,53 +45,64 @@ const RealTimeDataChart = forwardRef((props, ref) => {
   });
 
   useEffect(() => {
-    // const updateChartData = (data) => {
-    //   setChartData((prevChartData) => {
-    //     const newChartData = { ...prevChartData };
+    const updateChartData = (data) => {
+      console.log(data,"updatechartdata ")
+      // setChartData((prevChartData) => {
+      //   const newChartData = { ...prevChartData };
+      //   console.log(newChartData,"ooo")
 
-    //     newChartData.labels.push(data.time);
-    //     axesName.forEach((item, index) => {
-    //       newChartData.datasets[index].data.push(data[item]);
-    //     });
+      //   newChartData.labels.push(data.time);
+      //   axesName.forEach((item, index) => {
+      //     newChartData.datasets[index].data.push(data[item]);
+      //   });
 
-    //     if (newChartData.labels.length > 200) {
-    //       newChartData.labels.shift();
-    //       axesName.forEach((item, index) => {
-    //         newChartData.datasets[index].data.shift();
-    //       });
-    //     }
+      //   if (newChartData.labels.length > 200) {
+      //     newChartData.labels.shift();
+      //     axesName.forEach((item, index) => {
+      //       newChartData.datasets[index].data.shift();
+      //     });
+      //   }
 
-    //     return newChartData;
-    //   });
-    // };
+      //   return newChartData;
+      // });
+    };
+    updateChartData();
+  }, [chartData]);
 
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/data');
-        setChartData(response.data)
-
-        // updateChartData(response.data);
-
+          const response = await axios.get('http://localhost:8080/api/data');
+          // console.log(response.data, "lol", response.data.length, "hehehehe 1st time")
+          setChartData(response.data)
       } catch (error) {
-        console.error(error);
+          console.error(error);
       }
+  };
+  fetchData();
+},[]);
+
+  useEffect(() => {
+    const fetchNewData = async () => {
+        try {
+            // Wait for 3 seconds before making the API call again
+            await new Promise(resolve => setTimeout(resolve, 3000));
+
+            const response = await axios.get('http://localhost:8080/api/data');
+            // console.log(response.data, "fetchNewData ka response.data")
+            setChartData(response.data);
+        } catch (error) {
+            console.error(error);
+        }
     };
-
-    fetchData();
-
-    // Uncomment the following code if using WebSocket messages
-    // const handleSocketMessage = (event) => {
-    //   const data = JSON.parse(event.data);
-    //   updateChartData(data);
-    // };
-
-    // socket.addEventListener('message', handleSocketMessage);
-
-    // return () => {
-    //   socket.removeEventListener('message', handleSocketMessage);
-    // };
-
-  }, []);
+    const timer = setTimeout(() => {
+        fetchNewData();
+      }, 2000);
+    
+      return () => {
+        clearTimeout(timer);
+      };
+},[chartData]);
 
   useEffect(() => {
     if (chartRef.current) {
@@ -100,7 +112,7 @@ const RealTimeDataChart = forwardRef((props, ref) => {
         chartRef.current.chartInstance = new Chart(ctx, {
           type: 'line',
           data: chartData,
-          i: console.log(chartData,'okkk'),
+          i: console.log(chartData,' graphokkk'),
           options: {
             animation: {
               duration: 0,

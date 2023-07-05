@@ -13,7 +13,7 @@ function sendRealtimeData(data) {
 
 const generateRandomData = () => {
     const timestamp = Date.now();
-    const date = new Date(timestamp).toLocaleDateString();
+    const date = new Date(timestamp).toISOString().split('T')[0];
     const month = new Date(timestamp).toLocaleString("default", {month: "long",});
     const time = new Date(timestamp).toLocaleTimeString();
     const temperature = chance.integer({ min: 20, max: 400 });
@@ -21,6 +21,7 @@ const generateRandomData = () => {
     const pressure = chance.integer({ min: 800, max: 1200 });
 
   return {
+    timestamp,
     date,
     month,
     time,
@@ -30,23 +31,47 @@ const generateRandomData = () => {
   };
 }
 
-const getData = (req, res) => {
-  const results = [];
+const readCSVFile = (filePath) => {
+  return new Promise((resolve, reject) => {
+    const results = [];
 
-  fs.createReadStream(filePath)
-    .pipe(csv())
-    .on("data", (data) => {
-      results.push(data);
-    })
-    .on("end", () => {
-      // console.log(results)
-      // console.log(results.length)
-      res.json(results);
-    })
-    .on("error", (error) => {
-      console.error(error);
-      res.status(500).send("Internal Server Error");
-    });
+    fs.createReadStream(filePath)
+      .pipe(csv())
+      .on("data", (data) => {
+        results.push(data);
+      })
+      .on("end", () => {
+        resolve(results);
+      })
+      .on("error", (error) => {
+        reject(error);
+      });
+  });
+};
+
+const getData = async (req, res) => {
+  try {
+    const data = await readCSVFile(filePath);
+    res.json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+const filterData = async (req,res) =>{
+  const { startDate, endDate } = req.query;
+  console.log(startDate,'startDate')
+  console.log(endDate,'endDate')
+
+  const data = await readCSVFile(filePath);
+  console.log(data)
+
+  const filteredData = data.filter((row) => {
+    return row.Date >= startDate && row.Date <= endDate;
+  });
+
+  res.json(filteredData);
 }
 
 function generateAndAppendData() {
@@ -61,8 +86,8 @@ function generateAndAppendData() {
     `${
       fileExists
         ? ""
-        : "Date,Month,Time,Pressure,Temperature,Humidity\n"
-    }${data.date},${data.month},${data.time},${
+        : "Timestamp,Date,Month,Time,Pressure,Temperature,Humidity\n"
+    }${data.timestamp},${data.date},${data.month},${data.time},${
       data.pressure
     },${data.temperature},${data.humidity}\n`,
     (error) => {
@@ -81,4 +106,5 @@ module.exports = {
   sendRealtimeData,
   getData,
   generateAndAppendData,
+  filterData
 };

@@ -7,6 +7,7 @@ app.use(express.static("public"));
 app.use(cors());
 
 app.get("/api/data", dataController.getData);
+app.get("/api/data/filter", dataController.filterData);
 
 app.get("/", (req, res) => {
   res.json("Yay!");
@@ -15,5 +16,5 @@ app.get("/", (req, res) => {
 const port = 8080
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
-  dataController.generateAndAppendData();
+  // dataController.generateAndAppendData();
 });

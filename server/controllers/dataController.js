@@ -12,13 +12,15 @@ function sendRealtimeData(data) {
 }
 
 const generateRandomData = () => {
-    const timestamp = Date.now();
-    const date = new Date(timestamp).toISOString().split('T')[0];
-    const month = new Date(timestamp).toLocaleString("default", {month: "long",});
-    const time = new Date(timestamp).toLocaleTimeString();
-    const temperature = chance.integer({ min: 20, max: 400 });
-    const humidity = chance.integer({ min: 30, max: 700 });
-    const pressure = chance.integer({ min: 800, max: 1200 });
+  const timestamp = Date.now();
+  const date = new Date(timestamp).toISOString().split("T")[0];
+  const month = new Date(timestamp).toLocaleString("default", {
+    month: "long",
+  });
+  const time = new Date(timestamp).toLocaleTimeString();
+  const temperature = chance.integer({ min: 20, max: 400 });
+  const humidity = chance.integer({ min: 30, max: 700 });
+  const pressure = chance.integer({ min: 800, max: 1200 });
 
   return {
     timestamp,
@@ -29,7 +31,7 @@ const generateRandomData = () => {
     temperature,
     humidity,
   };
-}
+};
 
 const readCSVFile = (filePath) => {
   return new Promise((resolve, reject) => {
@@ -59,20 +61,25 @@ const getData = async (req, res) => {
   }
 };
 
-const filterData = async (req,res) =>{
-  const { startDate, endDate } = req.query;
-  console.log(startDate,'startDate')
-  console.log(endDate,'endDate')
+const filterData = async (req, res) => {
+  const { startDate, endDate, startTime, endTime } = req.query;
+  console.log(startTime, "startTime");
+  console.log(endTime, "endTime");
 
   const data = await readCSVFile(filePath);
-  console.log(data)
 
   const filteredData = data.filter((row) => {
     return row.Date >= startDate && row.Date <= endDate;
   });
 
-  res.json(filteredData);
-}
+  const filteredTimeData = filteredData.filter((row) => {
+    return row.Time >= startTime && row.Time <= endTime;
+  });
+
+  res.json(filteredTimeData);
+};
+
+// const filteredTimeData =
 
 function generateAndAppendData() {
   const data = generateRandomData();
@@ -99,12 +106,12 @@ function generateAndAppendData() {
 
   sendRealtimeData(data);
 
-  setTimeout(generateAndAppendData, 3000); // Generate data every 1 second
+  setTimeout(generateAndAppendData, 1); // Generate data every 1 second
 }
 
 module.exports = {
   sendRealtimeData,
   getData,
   generateAndAppendData,
-  filterData
+  filterData,
 };

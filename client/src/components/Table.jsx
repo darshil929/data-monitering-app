@@ -16,11 +16,15 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { Button } from '@mui/material';
+import { Button } from "@mui/material";
 
 import config from "../config.json";
 
 import axios from "axios";
+// import TimePicker from 'react-time-picker';
+import TimePicker from "rc-time-picker";
+import "rc-time-picker/assets/index.css";
+import moment from "moment";
 
 const columns = Object.keys(config.databases.db1_columns);
 // console.log(columns,'columns')
@@ -37,8 +41,14 @@ oddIndices_db_values.map((item, index) => {
   x = item;
   return x;
 });
+
 // const columns = Object.values(x)
 // const column_val = Object.keys(x)
+
+const format = "h:mm:ss a";
+
+const now = moment().hour(0).minute(0);
+
 const RealTimeDataTable = forwardRef((props, ref) => {
   const [chartData, setChartData] = useState([]);
   const [page, setPage] = useState(0);
@@ -46,6 +56,8 @@ const RealTimeDataTable = forwardRef((props, ref) => {
   const isFirstEffectUpdate = useRef(true);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -60,11 +72,26 @@ const RealTimeDataTable = forwardRef((props, ref) => {
     };
   }, []);
 
+  // const fetchData = async () => {
+  //   try {
+  //     let url = "http://localhost:8080/api/data";
+  //     if (startDate && endDate) {
+  //       url = `http://localhost:8080/api/data/filter?startDate=${startDate}&endDate=${endDate}`;
+  //       // console.log("filter vala", url);
+  //     }
+  //     const response = await axios.get(url);
+  //     // console.log(response.data, "lol", response.data.length, "hehehehe 1st time")
+  //     setChartData(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
   const fetchData = async () => {
     try {
       let url = "http://localhost:8080/api/data";
-      if (startDate && endDate) {
-        url = `http://localhost:8080/api/data/filter?startDate=${startDate}&endDate=${endDate}`;
+      if (startDate && endDate || startTime && endTime) {
+        url = `http://localhost:8080/api/data/filter?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}`;
         // console.log("filter vala", url);
       }
       const response = await axios.get(url);
@@ -75,9 +102,20 @@ const RealTimeDataTable = forwardRef((props, ref) => {
     }
   };
 
+  // const fetchFilterData = async () => {
+  //   try {
+  //     const url = `http://localhost:8080/api/data/filter?startDate=${startDate}&endDate=${endDate}`;
+  //     const response = await axios.get(url);
+  //     // console.log(response.data, "lol", response.data.length, "hehehehe 1st time")
+  //     setChartData(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
   const fetchFilterData = async () => {
     try {
-      const url = `http://localhost:8080/api/data/filter?startDate=${startDate}&endDate=${endDate}`;
+      const url = `http://localhost:8080/api/data/filter?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}`;
       const response = await axios.get(url);
       // console.log(response.data, "lol", response.data.length, "hehehehe 1st time")
       setChartData(response.data);
@@ -132,6 +170,16 @@ const RealTimeDataTable = forwardRef((props, ref) => {
     fetchFilterData();
   };
 
+  function onStartTimeChange(value) {
+    console.log(value.format(format), "starttime");
+    setStartTime(value.format(format));
+  }
+
+  function onEndTimeChange(value) {
+    console.log(value.format(format), "endtime");
+    setEndTime(value.format(format));
+  }
+
   return (
     <>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -168,20 +216,46 @@ const RealTimeDataTable = forwardRef((props, ref) => {
         <div className="table-filters flex">
           <div>
             <input
-            className="filter-input"
+              className="filter-input"
               type="date"
-              placeholder="Start Time"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
             />
             <input
-            className="filter-input"
+              className="filter-input"
               type="date"
-              placeholder="End Time"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
             />
-            <Button className="filter-btns" variant="contained" onClick={handleApplyFilter}>Apply</Button>
+
+            <TimePicker
+              className="filter-input"
+              showSecond={true}
+              defaultValue={now}
+              // value={startTime}
+              onChange={onStartTimeChange}
+              format={format}
+              use12Hours
+              inputReadOnly
+            />
+            <TimePicker
+              className="filter-input"
+              showSecond={true}
+              defaultValue={now}
+              // value={endTime}
+              onChange={onEndTimeChange}
+              format={format}
+              use12Hours
+              inputReadOnly
+            />
+
+            <Button
+              className="filter-btns"
+              variant="contained"
+              onClick={handleApplyFilter}
+            >
+              Apply
+            </Button>
           </div>
           <TablePagination
             rowsPerPageOptions={[200, 500, 1000]}

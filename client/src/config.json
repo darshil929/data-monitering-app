@@ -1,20 +1,24 @@
 {
   "databases": {
-    "db1": "SF_F1_DAY",
-    "db1_columns": {
-      "column1": "Date",
-      "column2": "Time",
-      "column3": "Temperature",
-      "column4": "Humidity",
-      "column5": "Pressure"
+    "db1": {
+      "db": "SPF_F1_DAY",
+      "columns": {
+        "column1": "Date",
+        "column2": "Time",
+        "column3": "Temperature",
+        "column4": "Humidity",
+        "column5": "Pressure"
+      }
     },
-    "db2": "SF_F1_SHIFT",
-    "db2_columns": {
-      "column1": "Date",
-      "column2": "Time",
-      "column3": "Temperature",
-      "column4": "Humidity",
-      "column5": "Pressure"
+    "db2": {
+      "db": "SPF_F1_SHIFT",
+      "columns": {
+        "column1": "Date",
+        "column2": "Time",
+        "column3": "Temperature",
+        "column4": "Humidity",
+        "column5": "Pressure"
+      }
     }
   }
 }

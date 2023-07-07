@@ -5,7 +5,7 @@ const ConfigForm = () => {
   const [databases, setDatabases] = useState([]);
   const [formData, setFormData] = useState({
     db: "",
-    columns: Array.from({ length: 5 }, () => ""),
+    columns: [],
   });
 
   const handleInputChange = (event) => {
@@ -14,49 +14,6 @@ const ConfigForm = () => {
       ...prevFormData,
       [name]: value,
     }));
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    const newDatabase = {
-      db: formData.db,
-      columns: [...formData.columns],
-    };
-
-    setDatabases((prevDatabases) => [...prevDatabases, newDatabase]);
-
-    setFormData({
-      db: "",
-      columns: Array.from({ length: 5 }, () => ""),
-    });
-  };
-
-  const handleDone = () => {
-    const config = {
-      databases: {},
-    };
-  
-    databases.forEach((database, index) => {
-      config.databases[`db${index + 1}`] = {
-        db: database.db,
-        columns: {},
-      };
-  
-      database.columns.forEach((column, colIndex) => {
-        config.databases[`db${index + 1}`].columns[`column${colIndex + 1}`] = column;
-      });
-    });
-  
-    // Make an API request to your server
-    axios
-      .post("http://localhost:8080/api", config)
-      .then((response) => {
-        console.log(response.data); // Optional: Handle server response
-      })
-      .catch((error) => {
-        console.error(error);
-      });
   };
 
   const handleColumnInputChange = (index, event) => {
@@ -71,6 +28,59 @@ const ConfigForm = () => {
     });
   };
 
+  const handleAddColumn = () => {
+    setFormData((prevFormData) => {
+      const newColumns = [...prevFormData.columns, ""];
+      return {
+        ...prevFormData,
+        columns: newColumns,
+      };
+    });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const newDatabase = {
+      db: formData.db,
+      columns: [...formData.columns],
+    };
+
+    setDatabases((prevDatabases) => [...prevDatabases, newDatabase]);
+
+    setFormData({
+      db: "",
+      columns: [],
+    });
+  };
+
+  const handleDone = () => {
+    const config = {
+      databases: {},
+    };
+
+    databases.forEach((database, index) => {
+      config.databases[`db${index + 1}`] = {
+        db: database.db,
+        columns: {},
+      };
+
+      database.columns.forEach((column, colIndex) => {
+        config.databases[`db${index + 1}`].columns[`column${colIndex + 1}`] = column;
+      });
+    });
+
+    // Make an API request to your server
+    axios
+      .post("http://localhost:8080/api", config)
+      .then((response) => {
+        console.log(response.data); // Optional: Handle server response
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <div>
       {databases.map((database, index) => (
@@ -79,7 +89,9 @@ const ConfigForm = () => {
           <p>Database: {database.db}</p>
           <ul>
             {database.columns.map((column, colIndex) => (
-              <li key={colIndex}>Column {colIndex + 1}: {column}</li>
+              <li key={colIndex}>
+                Column {colIndex + 1}: {column}
+              </li>
             ))}
           </ul>
         </div>
@@ -106,6 +118,9 @@ const ConfigForm = () => {
           </label>
         ))}
         <br />
+        <button type="button" onClick={handleAddColumn}>
+          Add Column
+        </button>
         <button type="submit">Submit</button>
       </form>
       <button onClick={handleDone}>Done</button>

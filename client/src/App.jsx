@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import LoadingPage from './components/Loading';
+import ConfigForm from './components/Testing/ConfigForm'
 
 
 const App = () => {
@@ -20,9 +21,10 @@ const App = () => {
         <LoadingPage />
       ) : (
         <div>
-          <Navbar />
+          {/* <Navbar /> */}
           {/* <MainComponent/> */}
           {/* <Filter/> */}
+          <ConfigForm></ConfigForm>
         </div>
       )}
     </div>

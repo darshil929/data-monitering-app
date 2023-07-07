@@ -24,7 +24,6 @@ const y = Object.values(x)
 //SubTab Names
 // const subTab = y.filter((_, index) => index !== 0);
 const subTab = y.filter((item) => item !== 'Date' && item !== 'Time');
-console.log(subTab,'yuegfuyuyevfuewveuwvfycuyevwuav')
 
 // const page = 
 

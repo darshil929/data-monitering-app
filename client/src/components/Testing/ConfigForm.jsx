@@ -58,18 +58,20 @@ const ConfigForm = () => {
     const config = {
       databases: {},
     };
-
+  
     databases.forEach((database, index) => {
-      config.databases[`db${index + 1}`] = {
-        db: database.db,
-        columns: {},
-      };
-
+      const dbKey = `db${index + 1}`;
+      const columnsKey = `${dbKey}_columns`;
+  
+      config.databases[dbKey] = database.db;
+      config.databases[columnsKey] = {};
+  
       database.columns.forEach((column, colIndex) => {
-        config.databases[`db${index + 1}`].columns[`column${colIndex + 1}`] = column;
+        const columnKey = `column${colIndex + 1}`;
+        config.databases[columnsKey][columnKey] = column;
       });
     });
-
+  
     // Make an API request to your server
     axios
       .post("http://localhost:8080/api", config)
@@ -80,6 +82,7 @@ const ConfigForm = () => {
         console.error(error);
       });
   };
+  
 
   return (
     <div>

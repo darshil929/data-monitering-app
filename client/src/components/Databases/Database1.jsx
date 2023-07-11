@@ -1,11 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-import { Button } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
+import { Button, TextField, Typography } from "@mui/material";
 
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
@@ -14,11 +14,11 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 import Table from '../Table';
 import LineChart from '../Chart/LineChart';
-import criton from "./criton.png";
+import criton from "../../images/criton.png";
 
 import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
 import * as XLSX from "xlsx";
+import axios from 'axios'
 
 const Database1 = () => {
 
@@ -72,7 +72,7 @@ const Database1 = () => {
         doc.setTextColor(40);
         doc.text("Content", data.settings.margin.left, 35);
         doc.addImage(
-          criton, // Replace with the path to your image file
+          criton,
           "PNG",
           data.settings.margin.left,
           5,
@@ -130,16 +130,10 @@ const Database1 = () => {
   };
 
   const [open, setOpen] = React.useState(false);
-  const [age, setAge] = React.useState('');
-
-  const handleChange = (event) => {
-    setAge(Number(event.target.value) || '');
-  };
 
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   const handleClose = (event, reason) => {
     if (reason !== 'backdropClick') {
       setOpen(false);
@@ -147,28 +141,114 @@ const Database1 = () => {
   };
 
   const chartRef = useRef(null);
-
   const resetChartZoom = () => {
     chartRef.current.getChartInstance().resetZoom();
   };
-
   const zoomIn = () => {
     chartRef.current.getChartInstance().zoom(1.1);
   };
-
   const zoomOut = () => {
     chartRef.current.getChartInstance().zoom(0.9);
   };
 
-  const handleDownloadPDF = () => {
-    const chartInstance = chartRef.current.getChartInstance();
-    // Use chartInstance for further operations
+  const [apiData, setApiData] = useState([]);
+  const fetchData = async () => {
+    try {
+      const apiUrl = `http://localhost:8080/api/data?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}`;
+      const response = await axios.get(apiUrl);
+      setApiData(response.data);
+      console.log(response.data, "response.data 1st time valaaaaa from database1");
+    }
+    catch (error) {
+      console.error(error);
+    }
+  }
+  useEffect(() => {
+    fetchData()
+  })
+
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+
+    if (name === "startDate") {
+      setStartDate(value);
+    } else if (name === "endDate") {
+      setEndDate(value);
+    } else if (name === "startTime") {
+      setStartTime(value);
+    } else if (name === "endTime") {
+      setEndTime(value);
+    }
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    fetchData();
   };
 
   return (
     <>
       <div className='graph-header flex'>
-        <h1>Graphical Representation</h1>
+        <div>
+          <form onSubmit={handleSubmit}>
+            <div className="date_container">
+              <Typography>Start Date</Typography>
+              <TextField
+                size="small"
+                type="date"
+                name="startDate"
+                variant="outlined"
+                value={startDate}
+                onChange={handleInputChange}
+              />
+              <Typography>End Date</Typography>
+              <TextField
+                size="small"
+                type="date"
+                name="endDate"
+                variant="outlined"
+                value={endDate}
+                onChange={handleInputChange}
+              />
+            </div>
+            <br />
+            <div className="time_container">
+              <Typography>Start Time</Typography>
+              <TextField
+                size="small"
+                type="time"
+                name="startTime"
+                variant="outlined"
+                inputProps={{
+                  step: 1, // Allows seconds input
+                }}
+                value={startTime}
+                onChange={handleInputChange}
+              />
+              <Typography>End Time</Typography>
+              <TextField
+                size="small"
+                type="time"
+                name="endTime"
+                variant="outlined"
+                inputProps={{
+                  step: 1, // Allows seconds input
+                }}
+                value={endTime}
+                onChange={handleInputChange}
+              />
+            </div>
+            <br />
+            <Button type="submit" variant="contained">
+              Apply Filter
+            </Button>
+          </form>
+        </div>
         <div>
           <Tooltip title="Reset" arrow>
             <Button variant="contained" className='graph-btns' onClick={resetChartZoom}>
@@ -188,7 +268,7 @@ const Database1 = () => {
         </div>
       </div>
       <div >
-        <LineChart />
+        <LineChart apidata={apiData} />
       </div>
       <div className='table-header flex'>
         <h1>Tabular Data</h1>
@@ -214,7 +294,7 @@ const Database1 = () => {
         </Tooltip>
       </div>
       <div id="table_with_data">
-        <Table />
+        <Table apidata={apiData} />
       </div>
     </>
   );

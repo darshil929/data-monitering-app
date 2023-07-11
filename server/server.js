@@ -10,7 +10,6 @@ app.use(cors());
 app.use(express.json()); 
 
 app.get("/api/data", dataController.getData);
-app.get("/api/data/filter", dataController.filterData);
 
 app.get("/", (req, res) => {
   res.json("Yay!");

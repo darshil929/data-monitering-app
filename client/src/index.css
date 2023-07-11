@@ -97,7 +97,7 @@ h1 {
 }
 
 .graph-header {
-  margin-top: 64px;
+  margin-top: 50px;
   justify-content: space-between !important;
 }
 
@@ -114,10 +114,6 @@ h1 {
   min-width: 80px !important;
   background-color: var(--secondary-color) !important;
   margin-top: 15px !important;
-}
-
-.table-filters{
-  justify-content: space-between;
 }
 
 .filter-input {
@@ -205,15 +201,6 @@ h1 {
   background-color: white !important;
   filter: brightness(.8) !important;
 } */
-
-
-/* dhjf */
-.container{
-  width:500px;
-  max-width: 350px;
-  overflow-x:scroll;
-
-}
 
 .containerBody{
   height: 500px;

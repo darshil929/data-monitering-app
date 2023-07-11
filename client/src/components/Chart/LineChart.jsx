@@ -1,215 +1,135 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Chart } from 'chart.js/auto';
 import './Chart.css';
-import config from '../../config.json';
-import axios from 'axios';
-// import zoomPlugin from 'chartjs-plugin-zoom';
-// Chart.register(zoomPlugin);
 
-const db_values = Object.values(config.databases);
-const evenIndices_db_values = db_values.filter((_, index) => index % 2 === 0);
-const tabNames = evenIndices_db_values;
-const oddIndices_db_values = db_values.filter((_, index) => index % 2 !== 0);
-let x;
-oddIndices_db_values.map((item, index) => {
-    x = item;
-    return x;
-});
-const y = Object.values(x);
-const axesName = y.filter((_, index) => index !== 0);
-console.log(axesName, "axesName")
+const ChartComponent = (props) => {
+    const { apidata } = props;
+    console.log(apidata, "response.data 1st time valaaaaa from chart");
 
-// const getRandomColor = () => {
-//     const letters = '0123456789ABCDEF';
-//     let color = '#';
-//     for (let i = 0; i < 6; i++) {
-//         color += letters[Math.floor(Math.random() * 16)];
-//     }
-//     return color;
-// };
+    const chartRef = useRef(null);
+    const [chartInstance, setChartInstance] = useState(null);
 
-const ChartComponent = () => {
+    useEffect(() => {
 
-    const chartRef1 = useRef(null);
-    const chartRef2 = useRef(null);
-    let chart1Instance;
-    let chart2Instance;
-    const [boxWidth, setBoxWidth] = useState('');
-    const [chartData, setChartData] = useState({});
-    const dates = [];
-    const temperatures = [];
+        const times = [];
+        const temperature = [];
 
-    const fetchData = async () => {
-        try {
-            const response = await axios.get('http://localhost:8080/api/data');
-            console.log(response.data, "lol", response.data.length, "hehehehe 1st time")
-            setChartData(response.data)
-        } catch (error) {
-            console.error(error);
+        const dataSize = apidata.length;
+        const dataLimit = 5000; // Maximum data points to display without downsampling
+
+        if (dataSize <= dataLimit) {
+            for (let i = 0; i < dataSize; i++) {
+                const row = apidata[i];
+                const timestamp = row.Timestamp;
+                const time = timestamp.substring(11, 19);
+                const date = timestamp.substring(0, 10);
+                const temp = parseInt(row.Temperature);
+                times.push(`${date} ${time}`);
+                temperature.push(temp);
+            }
+        } 
+        else {
+            const skip = Math.ceil(dataSize / dataLimit);
+            for (let i = 0; i < dataSize; i += skip) {
+                const row = apidata[i];
+                const timestamp = row.Timestamp;
+                const time = timestamp.substring(11, 19);
+                const date = timestamp.substring(0, 10);
+                const temp = parseInt(row.Temperature);
+                times.push(`${date} ${time}`);
+                temperature.push(temp);
+            }
         }
-    };
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+        let chartStatus = Chart.getChart("myChart");
+          if (chartStatus !== undefined) {
+            chartStatus.destroy();
+          }
 
-    useEffect(() => {
-        console.log(chartData)
-    }, [chartData]);
+        const ctx = chartRef.current.getContext("2d");
 
-    for (let i = 0; i < Object.keys(chartData).length; i++) {
-        const row = chartData[i];
-        const date = row.Date;
-        const temperature = parseInt(row.Temperature);
-        dates.push(date);
-        temperatures.push(temperature);
-    }
-
-    useEffect(() => {
-        const ctx1 = chartRef1.current.getContext('2d');
-        const chart1 = new Chart(ctx1, {
-            type: 'line',
-            data: {
-                labels: dates,
-                datasets: [{
-                  label: 'Temperature',
-                  data: temperatures,
-                  backgroundColor: [
-                    'rgba(255, 26, 104, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(0, 0, 0, 0.2)',
-                  ],
-                  borderColor: [
-                    'rgba(255, 26, 104, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(0, 0, 0, 1)',
-                  ],
-                  borderWidth: 1,
-                }],
-              },
-            options: {
-                maintainAspectRatio: false,
-                layout: {
-                    padding: {
-                        top: 10,
-                    },
-                },
-                scales: {
-                    y: {
-                        // display: true,
-                        // beginAtZero: true,
-                        ticks: {
-                            display: false,
-                        },
-                        grid: {
-                            drawTicks: false,
-                            drawBorder: false,
-                        },
-                    },
-                },
-                plugins: {
-                    legend: {
-                        display: false,
-                    },
-                },
-            },
-        });
-
-        chart1Instance = chart1;
-
-        return () => {
-            chart1.destroy();
-        };
-
-    }, []);
-
-    useEffect(() => {
-
-        const dt = chart1Instance?.data.datasets[0].data;
-
-        const ctx2 = chartRef2.current.getContext('2d');
-        const chart2 = new Chart(ctx2, {
-            type: 'line',
-            data: {
-                labels: dates,
-                datasets: [{
-                  label: 'Temperature',
-                  data: [],
-                }],
-              },
-            options: {
-                maintainAspectRatio: false,
-                layout: {
-                    padding: {
-                        bottom: 40,
-                        // top:10,
-                    },
-                },
-                scales: {
-                    x: {
-                        // display: true,
-                        ticks: {
-                          display: false,
-                        },
-                        grid: {
-                          drawTicks: false,
-                        },
-                      },
-                      y: {
-                        beginAtZero: true,
-                        afterFit: (ctx) => {
-                          ctx.width = 40;
-                        },
-                      },
-                },
-                plugins: {
-                    legend: {
-                        display: false,
-                    },
-                },
-            },
-        });
-
-        chart2Instance = chart2;
-
-        return () => {
-            chart2.destroy();
-        };
-
-    }, []);
-
-
-    useEffect(() => {
-        const barLength = chart1Instance?.data.labels.length || 0;
-
-        if (barLength > 7) {
-            const chartWidth = 700 + (barLength - 7) * 30;
-            setBoxWidth(`${chartWidth}px`);
+        if (chartInstance) {
+            chartInstance.data.labels = times;
+            chartInstance.data.datasets[0].data = temperature;
+            chartInstance.update();
         } else {
-            setBoxWidth('');
+            const chart = new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: times,
+                    datasets: [
+                        {
+                            label: "Temperature",
+                            data: temperature,
+                            borderWidth: 0.7,
+                            pointRadius: 0,
+                        },
+                    ],
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            top: 10,
+                        },
+                    },
+                    scales: {
+                        x: {
+                            min: 0,
+                            max: 60,
+                        },
+                        y: {
+                            ticks: {
+                                display: true,
+                            },
+                            grid: {
+                                drawTicks: false,
+                                drawBorder: false,
+                            },
+                        },
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                        },
+                    },
+                },
+            });
+            setChartInstance(chart);
         }
-    }, [chart1Instance]);
+    });
+
+    useEffect(() => {
+        const scroller = (e) => {
+            const { deltaY } = e;
+            const { min, max } = chartInstance.config.options.scales.x;
+
+            if (deltaY > 0 && max < chartInstance.config.data.labels.length - 1) {
+                chartInstance.config.options.scales.x.min += 60;
+                chartInstance.config.options.scales.x.max += 60;
+            } else if (deltaY < 0 && min > 0) {
+                chartInstance.config.options.scales.x.min -= 60;
+                chartInstance.config.options.scales.x.max -= 60;
+            }
+
+            chartInstance.update();
+        };
+
+        if (chartInstance) {
+            chartRef.current.addEventListener("wheel", scroller, { passive: true });
+        }
+
+        return () => {
+            if (chartInstance) {
+                chartRef.current.removeEventListener("wheel", scroller, { passive: true });
+            }
+        };
+                
+    });
 
     return (
-        <div className='chartCard'>
-            <div className='chartBox'>
-                <div className='colSmall'>
-                    <canvas id='myChart2' ref={chartRef2}></canvas>
-                </div>
-                <div className='colLarge'>
-                    <div className='box' style={{ width: boxWidth }}>
-                        <canvas id='myChart1' ref={chartRef1}></canvas>
-                    </div>
-                </div>
-            </div>
+        <div className="chart_container">
+            <canvas ref={chartRef}></canvas>
         </div>
     );
 };

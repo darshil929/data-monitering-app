@@ -1,0 +1,25 @@
+.chartCard {
+    width: 100vw;
+    height: calc(100vh - 40px);
+    display: flex;
+    align-items: center;
+  }
+
+  .chartBox {
+    width: 700px;
+    display: flex;
+  }
+
+  .colSmall {
+    width: 40px;
+  }
+
+  .colLarge {
+    max-width: 700px;
+    overflow-x: scroll;
+  }
+
+  .box {
+    width: calc(700px - 40px);
+    height: 500px;
+  }

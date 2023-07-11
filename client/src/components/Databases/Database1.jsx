@@ -13,7 +13,7 @@ import ZoomOutIcon from '@mui/icons-material/ZoomOut';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 import Table from '../Table';
-import RealTimeDataChart from '../Chart/LineChart';
+import LineChart from '../Chart/LineChart';
 import criton from "./criton.png";
 
 import jsPDF from "jspdf";
@@ -187,8 +187,8 @@ const Database1 = () => {
           </Tooltip>
         </div>
       </div>
-      <div className="graph-container">
-        <RealTimeDataChart ref={chartRef} />
+      <div >
+        <LineChart />
       </div>
       <div className='table-header flex'>
         <h1>Tabular Data</h1>

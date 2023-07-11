@@ -116,6 +116,23 @@ h1 {
   margin-top: 15px !important;
 }
 
+.table-filters{
+  justify-content: space-between;
+}
+
+.filter-input {
+  margin-left: 10px;
+  height: 4vh !important;
+}
+
+.filter-btns {
+  margin-left: 10px !important;
+  min-width: none !important;
+  background-color: var(--secondary-color) !important;
+  height: 4vh !important;
+}
+
+
 /* CSS for mui class */
 .css-cuefkz-MuiContainer-root{
   margin-left: 0 !important;

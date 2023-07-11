@@ -1,20 +1,20 @@
 {
-    "clientLogo": "Image",
-    "defaultLogo": "../images/logo.png",
-    "databases": {
-        "db1": "SPF_F1_DAY",
-        "db1_columns": {
-            "column1": "Time",
-            "column2": "Temperature",
-            "column3": "Humidity",
-            "column4": "Pressure"
-        },
-        "db2": "SPF_F1_SHIFT",
-        "db2_columns": {
-            "column1": "Time",
-            "column2": "Temperature",
-            "column3": "Humidity",
-            "column4": "Pressure"
-        }
+  "databases": {
+    "db1": "SPF_F1_DAY",
+    "db1_columns": {
+      "column1": "Date",
+      "column2": "Time",
+      "column3": "Temperature",
+      "column4": "Humidity",
+      "column5": "Pressure"
+    },
+    "db2": "SPF_F1_SHIFT",
+    "db2_columns": {
+      "column1": "Date",
+      "column2": "Time",
+      "column3": "Temperature",
+      "column4": "Humidity",
+      "column5": "Pressure"
     }
+  }
 }

@@ -2,30 +2,10 @@ import React from "react";
 import * as IoIcons from "react-icons/io";
 import * as RiIcons from "react-icons/ri";
 import { AiFillDatabase } from "react-icons/ai";
-import config from "../config.json";
+import config2 from "../config2.json";
 
-const db_values = Object.values(config.databases);
-// const db_keys = Object.keys(config.databases)
-
-//Tab Names
-const evenIndices_db_values = db_values.filter((_, index) => index % 2 === 0);
-const tabNames = evenIndices_db_values;
-
-const oddIndices_db_values = db_values.filter((_, index) => index % 2 !== 0);
-
-let x;
-oddIndices_db_values.map((item, index) => {
-	x = item;
-	return x;
-})
-
-const y = Object.values(x)
-
-//SubTab Names
-// const subTab = y.filter((_, index) => index !== 0);
-const subTab = y.filter((item) => item !== 'Date' && item !== 'Time');
-
-// const page = 
+const tabNames = Object.values(config2.databases).map(database => (database.db_name));
+const subTab = Object.values(config2.databases).map(database => Object.values(database.db_columns));
 
 const sidebarItems = tabNames.map((dataBaseName, index) => ({
 	title: dataBaseName,
@@ -33,10 +13,9 @@ const sidebarItems = tabNames.map((dataBaseName, index) => ({
 	icon: <AiFillDatabase className="sidebar-icon" />,
 	iconClosed: <RiIcons.RiArrowDownSFill className="sidebar-icon" />,
 	iconOpened: <RiIcons.RiArrowUpSFill className="sidebar-icon" />,
-	subNav: subTab.map((tableName, index) => ({
+	subNav: subTab[index].map((tableName, index) => ({
 		title: tableName,
-		// path: `/${dataBaseName}`,
-		path: `${'/'}`,
+		path: `/${dataBaseName}/${tableName}`,
 		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
 		iconClosed: <RiIcons.RiArrowDownSFill className="sidebar-icon" />,
 		iconOpened: <RiIcons.RiArrowUpSFill className="sidebar-icon" />,

@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+import { Button } from "@mui/material";
+
 const ConfigForm = () => {
   const [databases, setDatabases] = useState([]);
   const [formData, setFormData] = useState({
+    db_path: "",
+    db_type: "",
+    username: "",
+    password: "",
     db: "",
     columns: [],
   });
@@ -42,13 +48,28 @@ const ConfigForm = () => {
     event.preventDefault();
 
     const newDatabase = {
-      db: formData.db,
-      columns: [...formData.columns],
+      db_name: formData.db,
+      db_columns: {},
+      db_info: {
+        db_path: formData.db_path,
+        db_type: formData.db_type,
+        username: formData.username,
+        password: formData.password,
+      },
     };
+
+    formData.columns.forEach((column, index) => {
+      const columnKey = `column${index + 1}`;
+      newDatabase.db_columns[columnKey] = column;
+    });
 
     setDatabases((prevDatabases) => [...prevDatabases, newDatabase]);
 
     setFormData({
+      db_path: "",
+      db_type: "",
+      username: "",
+      password: "",
       db: "",
       columns: [],
     });
@@ -58,20 +79,12 @@ const ConfigForm = () => {
     const config = {
       databases: {},
     };
-  
+
     databases.forEach((database, index) => {
       const dbKey = `db${index + 1}`;
-      const columnsKey = `${dbKey}_columns`;
-  
-      config.databases[dbKey] = database.db;
-      config.databases[columnsKey] = {};
-  
-      database.columns.forEach((column, colIndex) => {
-        const columnKey = `column${colIndex + 1}`;
-        config.databases[columnsKey][columnKey] = column;
-      });
+      config.databases[dbKey] = database;
     });
-  
+
     // Make an API request to your server
     axios
       .post("http://localhost:8080/api", config)
@@ -82,51 +95,104 @@ const ConfigForm = () => {
         console.error(error);
       });
   };
-  
 
   return (
     <div>
-      {databases.map((database, index) => (
-        <div key={index}>
-          <h3>Database {index + 1}</h3>
-          <p>Database: {database.db}</p>
-          <ul>
-            {database.columns.map((column, colIndex) => (
-              <li key={colIndex}>
-                Column {colIndex + 1}: {column}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-      <form onSubmit={handleSubmit}>
-        <label>
-          Database:
-          <input
-            type="text"
-            name="db"
-            value={formData.db}
-            onChange={handleInputChange}
-          />
-        </label>
-        {formData.columns.map((column, index) => (
-          <label key={index}>
-            Column {index + 1}:
-            <input
-              type="text"
-              name={`column${index + 1}`}
-              value={column}
-              onChange={(event) => handleColumnInputChange(index, event)}
-            />
+      <h1 className="form-header flex">CONFIGURATION</h1>
+      <div className="form-content flex">
+        <form onSubmit={handleSubmit}>
+          <label>
+            <div className="form-label flex">
+              <h3>Database Path:</h3>
+              <input
+                className="form-input"
+                type="text"
+                name="db_path"
+                value={formData.db_path}
+                onChange={handleInputChange}
+              />
+            </div>
           </label>
-        ))}
-        <br />
-        <button type="button" onClick={handleAddColumn}>
-          Add Column
-        </button>
-        <button type="submit">Submit</button>
-      </form>
-      <button onClick={handleDone}>Done</button>
+          <label>
+            <div className="form-label flex">
+              <h3>Database Type:</h3>
+              <input
+                className="form-input"
+                type="text"
+                name="db_type"
+                value={formData.db_type}
+                onChange={handleInputChange}
+              />
+            </div>
+          </label>
+          <label>
+            <div className="form-label flex">
+              <h3>Username:</h3>
+              <input
+                className="form-input"
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleInputChange}
+              />
+            </div>
+          </label>
+          <label>
+            <div className="form-label flex">
+              <h3>Password:</h3>
+              <input
+                className="form-input"
+                type="text"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+              />
+            </div>
+          </label>
+          <label>
+            <div className="form-label flex">
+              <h3>Database Name:</h3>
+              <input
+                className="form-input"
+                type="text"
+                name="db"
+                value={formData.db}
+                onChange={handleInputChange}
+              />
+            </div>
+          </label>
+          {formData.columns.map((column, index) => (
+            <label key={index}>
+              <div className="form-label flex">
+                <h3>Column {index + 1}:</h3>
+                <input
+                  className="form-input"
+                  type="text"
+                  name={`column${index + 1}`}
+                  value={column}
+                  onChange={(event) => handleColumnInputChange(index, event)}
+                />
+              </div>
+            </label>
+          ))}
+          <br />
+          <Button
+            variant="contained"
+            className="btns"
+            type="button"
+            onClick={handleAddColumn}
+          >
+            Add Column
+          </Button>
+          <Button variant="contained" className="btns" type="submit">
+            ADD
+          </Button>
+          <br />
+          <Button variant="contained" className="btns" onClick={handleDone}>
+            DONE
+          </Button>
+        </form>
+      </div>
     </div>
   );
 };

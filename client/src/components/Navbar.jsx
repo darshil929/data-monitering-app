@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from "react-dom";
-import { Routes, Route,Link } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 
 import PropTypes from 'prop-types';
 
@@ -38,7 +38,7 @@ function ResponsiveDrawer(props) {
             <div>
                 <Sidebar></Sidebar>
             </div>
-            
+
         </div>
     );
 
@@ -109,9 +109,9 @@ function ResponsiveDrawer(props) {
                 component="main"
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
-                {/* <Toolbar /> */}
                 <Routes>
                     <Route path="/" Component={Database1} />
+                    <Route path="/SPF_F1_DAY/Temperature" Component={Database1} />
                 </Routes>
             </Box>
         </Box>

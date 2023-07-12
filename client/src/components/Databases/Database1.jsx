@@ -157,7 +157,7 @@ const Database1 = () => {
       const apiUrl = `http://localhost:8080/api/data?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}`;
       const response = await axios.get(apiUrl);
       setApiData(response.data);
-      console.log(response.data, "response.data 1st time valaaaaa from database1");
+      // console.log(response.data, "response.data 1st time valaaaaa from database1");
     }
     catch (error) {
       console.error(error);

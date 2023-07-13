@@ -17,6 +17,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import criton from '../images/criton.png';
 import Database1 from './Databases/Database1';
 import Sidebar from './Sidebar';
+import config2 from "../config2.json";
+import Database from '../components/Testing/Database';
 
 const drawerWidth = 240;
 
@@ -43,6 +45,21 @@ function ResponsiveDrawer(props) {
     );
 
     const container = window !== undefined ? () => window().document.body : undefined;
+
+    const routes = Object.entries(config2.databases).flatMap(([key, database]) => {
+        const { db_name, db_columns } = database;
+
+        // Add route for the database itself
+        const databaseRoute = (<Route key={key} path={`/${db_name}`} element={<Database databaseName={db_name} />} />);
+
+        // Add routes for each column within the database
+        const columnRoutes = Object.entries(db_columns).map(([columnKey, columnName]) => (
+        <Route key={columnKey} path={`/${db_name}/${columnName}`} element={<Database databaseName={db_name} columnName={columnName} />}/>
+        ));
+
+        return [databaseRoute, ...columnRoutes];
+    });
+
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -111,7 +128,10 @@ function ResponsiveDrawer(props) {
             >
                 <Routes>
                     <Route path="/" Component={Database1} />
-                    <Route path="/SPF_F1_DAY/Temperature" Component={Database1} />
+                    {/* <Route path="/SPF_F1_DAY" Component={Database1} />
+                    <Route path="/SPF_F1_SHIFT" Component={Database1} />
+                    <Route path="/KREENA" Component={Database} /> */}
+                    {routes}
                 </Routes>
             </Box>
         </Box>

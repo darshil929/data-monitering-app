@@ -9,7 +9,8 @@ const subTab = Object.values(config2.databases).map(database => Object.values(da
 
 const sidebarItems = tabNames.map((dataBaseName, index) => ({
 	title: dataBaseName,
-	path: "/",
+	path:  index === 0 ? "/" : `/${dataBaseName}`,
+	// path: "/",
 	icon: <AiFillDatabase className="sidebar-icon" />,
 	iconClosed: <RiIcons.RiArrowDownSFill className="sidebar-icon" />,
 	iconOpened: <RiIcons.RiArrowUpSFill className="sidebar-icon" />,

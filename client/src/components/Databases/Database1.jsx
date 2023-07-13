@@ -12,8 +12,8 @@ import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import ZoomOutIcon from '@mui/icons-material/ZoomOut';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
-import Table from '../Table';
-import LineChart from '../Chart/LineChart';
+// import Table from '../Table';
+// import LineChart from '../Chart/LineChart';
 import criton from "../../images/criton.png";
 
 import jsPDF from "jspdf";
@@ -21,6 +21,12 @@ import * as XLSX from "xlsx";
 import axios from 'axios'
 
 const Database1 = () => {
+  const [open, setOpen] = React.useState(false);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [apiData, setApiData] = useState([]);
 
   // Convert string to ArrayBuffer
   const s2ab = (s) => {
@@ -129,8 +135,6 @@ const Database1 = () => {
     }
   };
 
-  const [open, setOpen] = React.useState(false);
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -150,8 +154,7 @@ const Database1 = () => {
   const zoomOut = () => {
     chartRef.current.getChartInstance().zoom(0.9);
   };
-
-  const [apiData, setApiData] = useState([]);
+  
   const fetchData = async () => {
     try {
       const apiUrl = `http://localhost:8080/api/data?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}`;
@@ -166,11 +169,6 @@ const Database1 = () => {
   useEffect(() => {
     fetchData()
   })
-
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -196,7 +194,8 @@ const Database1 = () => {
       <div className='graph-header flex'>
         <div>
           <form onSubmit={handleSubmit}>
-            <div className="date_container">
+            <div className="date_container flex">
+              <div className='start flex'>
               <Typography>Start Date</Typography>
               <TextField
                 size="small"
@@ -206,6 +205,8 @@ const Database1 = () => {
                 value={startDate}
                 onChange={handleInputChange}
               />
+              </div>
+              <div className='end flex'>
               <Typography>End Date</Typography>
               <TextField
                 size="small"
@@ -215,11 +216,14 @@ const Database1 = () => {
                 value={endDate}
                 onChange={handleInputChange}
               />
+              </div>
             </div>
             <br />
-            <div className="time_container">
+            <div className="time_container flex">
+            <div className='start flex'>
               <Typography>Start Time</Typography>
               <TextField
+                className='filter-input'
                 size="small"
                 type="time"
                 name="startTime"
@@ -230,8 +234,11 @@ const Database1 = () => {
                 value={startTime}
                 onChange={handleInputChange}
               />
+              </div>
+              <div className='end flex'>
               <Typography>End Time</Typography>
               <TextField
+                className='filter-input'
                 size="small"
                 type="time"
                 name="endTime"
@@ -242,6 +249,7 @@ const Database1 = () => {
                 value={endTime}
                 onChange={handleInputChange}
               />
+              </div>
             </div>
             <br />
             <Button type="submit" variant="contained">
@@ -268,7 +276,7 @@ const Database1 = () => {
         </div>
       </div>
       <div >
-        <LineChart apidata={apiData} />
+        {/* <LineChart apidata={apiData} /> */}
       </div>
       <div className='table-header flex'>
         <h1>Tabular Data</h1>
@@ -294,7 +302,7 @@ const Database1 = () => {
         </Tooltip>
       </div>
       <div id="table_with_data">
-        <Table apidata={apiData} />
+        {/* <Table apidata={apiData} /> */}
       </div>
     </>
   );

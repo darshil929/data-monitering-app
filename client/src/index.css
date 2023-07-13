@@ -202,6 +202,40 @@ h1 {
   filter: brightness(.8) !important;
 } */
 
+.css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input {
+  height: 10px !important;
+  width: 120px !important;
+}
+
+.filter-input {
+  width: 80px;
+}
+
+.date_container {
+  /* flex-direction: column !important; */
+  justify-content: space-between !important;
+}
+
+.time_container {
+  /* flex-direction: column !important; */
+  justify-content: space-between !important;
+}
+
+.start {
+  flex-direction: column !important;
+}
+
+.end {
+  flex-direction: column !important;
+}
+
+
+
+
+
+
+
+
 .containerBody{
   height: 500px;
 

@@ -1,6 +1,6 @@
-/* ::-webkit-scrollbar {
+::-webkit-scrollbar {
   display: none;
-} */
+}
 
 :root {
   --primary-color: #002D62;

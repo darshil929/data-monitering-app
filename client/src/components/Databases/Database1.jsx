@@ -12,8 +12,8 @@ import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import ZoomOutIcon from '@mui/icons-material/ZoomOut';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
-// import Table from '../Table';
-// import LineChart from '../Chart/LineChart';
+import Table from '../Table';
+import LineChart from '../Chart/LineChart';
 import criton from "../../images/criton.png";
 
 import jsPDF from "jspdf";
@@ -276,7 +276,7 @@ const Database1 = () => {
         </div>
       </div>
       <div >
-        {/* <LineChart apidata={apiData} /> */}
+        <LineChart apidata={apiData} />
       </div>
       <div className='table-header flex'>
         <h1>Tabular Data</h1>
@@ -302,7 +302,7 @@ const Database1 = () => {
         </Tooltip>
       </div>
       <div id="table_with_data">
-        {/* <Table apidata={apiData} /> */}
+        <Table apidata={apiData} />
       </div>
     </>
   );

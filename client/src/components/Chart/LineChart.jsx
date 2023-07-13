@@ -118,13 +118,7 @@ const ChartComponent = (props) => {
         if (chartInstance) {
             chartRef.current.addEventListener("wheel", scroller, { passive: true });
         }
-
-        return () => {
-            if (chartInstance) {
-                chartRef.current.removeEventListener("wheel", scroller, { passive: true });
-            }
-        };
-                
+            
     });
 
     return (

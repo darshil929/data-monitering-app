@@ -15,9 +15,9 @@ import config from "../config.json";
 const db_values = Object.values(config.databases);
 // const db_keys = Object.keys(config.databases)
 const columns = Object.keys(config.databases.db1_columns);
-console.log(columns,'columns')
+// console.log(columns,'columns')
 const column_val = Object.values(config.databases.db1_columns);
-console.log(column_val,'column_val')
+// console.log(column_val,'column_val')
 
 const oddIndices_db_values = db_values.filter((_, index) => index % 2 !== 0);
 

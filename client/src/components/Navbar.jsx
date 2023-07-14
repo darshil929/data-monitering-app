@@ -15,7 +15,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 import criton from '../images/criton.png';
 import Columns from './Column/Columns';
-import SingleColumn from './Column/SingleColumn';
 import Sidebar from './Sidebar';
 import config from "../config.json";
 
@@ -55,7 +54,7 @@ function ResponsiveDrawer(props) {
 
         // Add routes for each column within the database
         const columnRoutes = Object.entries(db_columns).map(([columnKey, columnName]) => (
-        <Route key={columnKey} path={`/${db_name}/${columnName}`} element={<SingleColumn databaseName={db_name} columnName={columnName} />}/>
+        <Route key={columnKey} path={`/${db_name}/${columnName}`} element={<Columns databaseName={db_name} columnName={columnName} />}/>
         ));
 
         return [databaseRoute, ...columnRoutes];

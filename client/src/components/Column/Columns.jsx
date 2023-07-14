@@ -25,9 +25,11 @@ const Columns = (props) => {
 
   useEffect(() => {
     propKeys.forEach(prop => {
-      console.log(`${prop}: ${props[prop]}`, "useEffect");
+      console.log(`${prop}: ${props[prop]}`);
     });
   }, [propKeys, props]);
+
+  const {columnName} = props;
 
   const [open, setOpen] = React.useState(false);
   const [startDate, setStartDate] = useState("");
@@ -162,7 +164,7 @@ const Columns = (props) => {
   const zoomOut = () => {
     chartRef.current.getChartInstance().zoom(0.9);
   };
-
+  
   const fetchData = async () => {
     try {
       const apiUrl = `http://localhost:8080/api/data?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}`;
@@ -176,7 +178,7 @@ const Columns = (props) => {
   }
   useEffect(() => {
     fetchData()
-  }, [])
+  },[])
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -197,6 +199,17 @@ const Columns = (props) => {
     fetchData();
   };
 
+  const extractDataByColumn = (data, column) => {
+    const extractedData = data.map((row) => ({
+      Timestamp: row.Timestamp,
+      [column]: row[column],
+    }));
+    return extractedData;
+  };
+
+  const colData = columnName ? extractDataByColumn(apiData, columnName) : apiData;
+
+
   return (
     <>
       <div className='graph-header flex'>
@@ -204,59 +217,59 @@ const Columns = (props) => {
           <form onSubmit={handleSubmit}>
             <div className="date_container flex">
               <div className='start flex'>
-                <Typography>Start Date</Typography>
-                <TextField
-                  size="small"
-                  type="date"
-                  name="startDate"
-                  variant="outlined"
-                  value={startDate}
-                  onChange={handleInputChange}
-                />
+              <Typography>Start Date</Typography>
+              <TextField
+                size="small"
+                type="date"
+                name="startDate"
+                variant="outlined"
+                value={startDate}
+                onChange={handleInputChange}
+              />
               </div>
               <div className='end flex'>
-                <Typography>End Date</Typography>
-                <TextField
-                  size="small"
-                  type="date"
-                  name="endDate"
-                  variant="outlined"
-                  value={endDate}
-                  onChange={handleInputChange}
-                />
+              <Typography>End Date</Typography>
+              <TextField
+                size="small"
+                type="date"
+                name="endDate"
+                variant="outlined"
+                value={endDate}
+                onChange={handleInputChange}
+              />
               </div>
             </div>
             <br />
             <div className="time_container flex">
-              <div className='start flex'>
-                <Typography>Start Time</Typography>
-                <TextField
-                  className='filter-input'
-                  size="small"
-                  type="time"
-                  name="startTime"
-                  variant="outlined"
-                  inputProps={{
-                    step: 1, // Allows seconds input
-                  }}
-                  value={startTime}
-                  onChange={handleInputChange}
-                />
+            <div className='start flex'>
+              <Typography>Start Time</Typography>
+              <TextField
+                className='filter-input'
+                size="small"
+                type="time"
+                name="startTime"
+                variant="outlined"
+                inputProps={{
+                  step: 1, // Allows seconds input
+                }}
+                value={startTime}
+                onChange={handleInputChange}
+              />
               </div>
               <div className='end flex'>
-                <Typography>End Time</Typography>
-                <TextField
-                  className='filter-input'
-                  size="small"
-                  type="time"
-                  name="endTime"
-                  variant="outlined"
-                  inputProps={{
-                    step: 1, // Allows seconds input
-                  }}
-                  value={endTime}
-                  onChange={handleInputChange}
-                />
+              <Typography>End Time</Typography>
+              <TextField
+                className='filter-input'
+                size="small"
+                type="time"
+                name="endTime"
+                variant="outlined"
+                inputProps={{
+                  step: 1, // Allows seconds input
+                }}
+                value={endTime}
+                onChange={handleInputChange}
+              />
               </div>
             </div>
             <br />
@@ -284,7 +297,11 @@ const Columns = (props) => {
         </div>
       </div>
       <div >
-        <LineChart apidata={apiData} />
+      {columnName ? (
+          <LineChart apidata={colData} />
+        ) : (
+          <LineChart apidata={apiData} />
+        )}
       </div>
       <div className='table-header flex'>
         <h1>Tabular Data</h1>
@@ -310,7 +327,11 @@ const Columns = (props) => {
         </Tooltip>
       </div>
       <div id="table_with_data">
-        <Table apidata={apiData} />
+      {columnName ? (
+          <Table apidata={colData} />
+        ) : (
+          <Table apidata={apiData} />
+        )}
       </div>
     </>
   );

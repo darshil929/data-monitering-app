@@ -14,10 +14,10 @@ import Toolbar from '@mui/material/Toolbar';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import criton from '../images/criton.png';
-import Database1 from './Column/Columns';
+import Columns from './Column/Columns';
+import SingleColumn from './Column/SingleColumn';
 import Sidebar from './Sidebar';
 import config from "../config.json";
-import Database from '../components/Testing/Database';
 
 const drawerWidth = 240;
 
@@ -45,15 +45,17 @@ function ResponsiveDrawer(props) {
 
     const container = window !== undefined ? () => window().document.body : undefined;
 
-    const routes = Object.entries(config.databases).flatMap(([key, database]) => {
+    const routes = Object.entries(config.databases).flatMap(([key, database],index) => {
         const { db_name, db_columns } = database;
+        
+        const databaseRoutePath = index === 0 ? "/" : `/${db_name}`;
 
         // Add route for the database itself
-        const databaseRoute = (<Route key={key} path={`/${db_name}`} element={<Database databaseName={db_name} />} />);
+        const databaseRoute = (<Route key={key} path={databaseRoutePath} element={<Columns databaseName={db_name} />} />);
 
         // Add routes for each column within the database
         const columnRoutes = Object.entries(db_columns).map(([columnKey, columnName]) => (
-        <Route key={columnKey} path={`/${db_name}/${columnName}`} element={<Database databaseName={db_name} columnName={columnName} />}/>
+        <Route key={columnKey} path={`/${db_name}/${columnName}`} element={<SingleColumn databaseName={db_name} columnName={columnName} />}/>
         ));
 
         return [databaseRoute, ...columnRoutes];
@@ -125,10 +127,6 @@ function ResponsiveDrawer(props) {
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
                 <Routes>
-                    <Route path="/" Component={Database1} />
-                    {/* <Route path="/SPF_F1_DAY" Component={Database1} />
-                    <Route path="/SPF_F1_SHIFT" Component={Database1} />
-                    <Route path="/KREENA" Component={Database} /> */}
                     {routes}
                 </Routes>
             </Box>

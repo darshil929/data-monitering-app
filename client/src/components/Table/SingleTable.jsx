@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useState} from "react";
+import { useState } from "react";
 
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -10,29 +10,8 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 
-import config from "../../config.json";
-
-const db_values = Object.values(config.databases);
-// const db_keys = Object.keys(config.databases)
-const columns = Object.keys(config.databases.db1_columns);
-// console.log(columns,'columns')
-const column_val = Object.values(config.databases.db1_columns);
-// console.log(column_val,'column_val')
-
-const oddIndices_db_values = db_values.filter((_, index) => index % 2 !== 0);
-
-let x;
-oddIndices_db_values.map((item, index) => {
-  x = item;
-  return x;
-});
-
-// const columns = Object.values(x)
-// const column_val = Object.keys(x)
-
-const RealTimeDataTable = ((props) => {
+const TableData = (props) => {
   const { apidata } = props;
-  console.log(apidata.length, "response.data 1st time valaaaaa from table");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(1000);
 
@@ -52,27 +31,24 @@ const RealTimeDataTable = ((props) => {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                {/* {console.log(columns, 'sdhbgsdfhdh')} */}
-                {columns.map((c) => (
-                  <TableCell align="center" key={c}>
-                    {config.databases.db1_columns[c]}
-                  </TableCell>
-                ))}
+                {apidata.length > 0 &&
+                  Object.keys(apidata[0]).map((column) => (
+                    <TableCell align="center" key={column}>
+                      {column}
+                    </TableCell>
+                  ))}
               </TableRow>
             </TableHead>
             <TableBody>
               {apidata
                 .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
-                .map((row, c) => (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={c}>
-                    {column_val.map((c) => {
-                      const value = row[c];
-                      return (
-                        <TableCell key={c} align="center">
-                          {value}
-                        </TableCell>
-                      );
-                    })}
+                .map((row, index) => (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                    {Object.values(row).map((value, colIndex) => (
+                      <TableCell key={colIndex} align="center">
+                        {value}
+                      </TableCell>
+                    ))}
                   </TableRow>
                 ))}
             </TableBody>
@@ -92,6 +68,6 @@ const RealTimeDataTable = ((props) => {
       </Paper>
     </>
   );
-});
+};
 
-export default RealTimeDataTable;
+export default TableData;

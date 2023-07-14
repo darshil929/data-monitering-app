@@ -12,15 +12,25 @@ import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import ZoomOutIcon from '@mui/icons-material/ZoomOut';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
-import Table from '../Table/Table';
-import LineChart from '../Chart/LineChart';
+import SingleTable from '../Table/SingleTable';
+import SingleLineChart from '../Chart/SingleLineChart';
 import criton from "../../images/criton.png";
 
 import jsPDF from "jspdf";
 import * as XLSX from "xlsx";
 import axios from 'axios'
 
-const Database1 = () => {
+const Columns = (props) => {
+  const propKeys = Object.keys(props);
+
+  useEffect(() => {
+    propKeys.forEach(prop => {
+      console.log(`${prop}: ${props[prop]}`);
+    });
+  }, [propKeys, props]);
+
+  const {columnName} = props;
+
   const [open, setOpen] = React.useState(false);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -160,7 +170,7 @@ const Database1 = () => {
       const apiUrl = `http://localhost:8080/api/data?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}`;
       const response = await axios.get(apiUrl);
       setApiData(response.data);
-      // console.log(response.data, "response.data 1st time valaaaaa from database1");
+      console.log(response.data, "response.data 1st time valaaaaa from columns component");
     }
     catch (error) {
       console.error(error);
@@ -168,7 +178,7 @@ const Database1 = () => {
   }
   useEffect(() => {
     fetchData()
-  })
+  },[])
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -188,6 +198,17 @@ const Database1 = () => {
     event.preventDefault();
     fetchData();
   };
+
+  const extractDataByColumn = (data, column) => {
+    const extractedData = data.map((row) => ({
+      Timestamp: row.Timestamp,
+      [column]: row[column],
+    }));
+    return extractedData;
+  };
+
+  const colData = extractDataByColumn(apiData, columnName);
+  console.log(colData , "KREENAAAAAAAA")
 
   return (
     <>
@@ -276,7 +297,7 @@ const Database1 = () => {
         </div>
       </div>
       <div >
-        <LineChart apidata={apiData} />
+        <SingleLineChart apidata={colData} />
       </div>
       <div className='table-header flex'>
         <h1>Tabular Data</h1>
@@ -302,10 +323,10 @@ const Database1 = () => {
         </Tooltip>
       </div>
       <div id="table_with_data">
-        <Table apidata={apiData} />
+        <SingleTable apidata={colData} />
       </div>
     </>
   );
 };
 
-export default Database1;
+export default Columns;

@@ -20,7 +20,15 @@ import jsPDF from "jspdf";
 import * as XLSX from "xlsx";
 import axios from 'axios'
 
-const Columns = () => {
+const Columns = (props) => {
+  const propKeys = Object.keys(props);
+
+  useEffect(() => {
+    propKeys.forEach(prop => {
+      console.log(`${prop}: ${props[prop]}`, "useEffect");
+    });
+  }, [propKeys, props]);
+
   const [open, setOpen] = React.useState(false);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -154,7 +162,7 @@ const Columns = () => {
   const zoomOut = () => {
     chartRef.current.getChartInstance().zoom(0.9);
   };
-  
+
   const fetchData = async () => {
     try {
       const apiUrl = `http://localhost:8080/api/data?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}`;
@@ -168,7 +176,7 @@ const Columns = () => {
   }
   useEffect(() => {
     fetchData()
-  },[])
+  }, [])
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -196,59 +204,59 @@ const Columns = () => {
           <form onSubmit={handleSubmit}>
             <div className="date_container flex">
               <div className='start flex'>
-              <Typography>Start Date</Typography>
-              <TextField
-                size="small"
-                type="date"
-                name="startDate"
-                variant="outlined"
-                value={startDate}
-                onChange={handleInputChange}
-              />
+                <Typography>Start Date</Typography>
+                <TextField
+                  size="small"
+                  type="date"
+                  name="startDate"
+                  variant="outlined"
+                  value={startDate}
+                  onChange={handleInputChange}
+                />
               </div>
               <div className='end flex'>
-              <Typography>End Date</Typography>
-              <TextField
-                size="small"
-                type="date"
-                name="endDate"
-                variant="outlined"
-                value={endDate}
-                onChange={handleInputChange}
-              />
+                <Typography>End Date</Typography>
+                <TextField
+                  size="small"
+                  type="date"
+                  name="endDate"
+                  variant="outlined"
+                  value={endDate}
+                  onChange={handleInputChange}
+                />
               </div>
             </div>
             <br />
             <div className="time_container flex">
-            <div className='start flex'>
-              <Typography>Start Time</Typography>
-              <TextField
-                className='filter-input'
-                size="small"
-                type="time"
-                name="startTime"
-                variant="outlined"
-                inputProps={{
-                  step: 1, // Allows seconds input
-                }}
-                value={startTime}
-                onChange={handleInputChange}
-              />
+              <div className='start flex'>
+                <Typography>Start Time</Typography>
+                <TextField
+                  className='filter-input'
+                  size="small"
+                  type="time"
+                  name="startTime"
+                  variant="outlined"
+                  inputProps={{
+                    step: 1, // Allows seconds input
+                  }}
+                  value={startTime}
+                  onChange={handleInputChange}
+                />
               </div>
               <div className='end flex'>
-              <Typography>End Time</Typography>
-              <TextField
-                className='filter-input'
-                size="small"
-                type="time"
-                name="endTime"
-                variant="outlined"
-                inputProps={{
-                  step: 1, // Allows seconds input
-                }}
-                value={endTime}
-                onChange={handleInputChange}
-              />
+                <Typography>End Time</Typography>
+                <TextField
+                  className='filter-input'
+                  size="small"
+                  type="time"
+                  name="endTime"
+                  variant="outlined"
+                  inputProps={{
+                    step: 1, // Allows seconds input
+                  }}
+                  value={endTime}
+                  onChange={handleInputChange}
+                />
               </div>
             </div>
             <br />

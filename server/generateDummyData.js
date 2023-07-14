@@ -46,7 +46,7 @@ dataset.forEach((dataPoint) => {
 });
 
 // Save the dataset to a CSV file
-fs.writeFile('demo.csv', csvContent, (err) => {
+fs.writeFile('data.csv', csvContent, (err) => {
   if (err) throw err;
   console.log('Dataset saved to dataset.csv');
 });

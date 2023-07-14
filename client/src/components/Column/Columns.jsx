@@ -155,14 +155,21 @@ const Columns = (props) => {
   };
 
   const chartRef = useRef(null);
+
   const resetChartZoom = () => {
     chartRef.current.getChartInstance().resetZoom();
   };
+
   const zoomIn = () => {
-    chartRef.current.getChartInstance().zoom(1.1);
+    if (chartRef.current) {
+      chartRef.current.getChartInstance().zoom(1.1);
+    }
   };
+
   const zoomOut = () => {
-    chartRef.current.getChartInstance().zoom(0.9);
+    if (chartRef.current) {
+      chartRef.current.getChartInstance().zoom(0.9);
+    }
   };
   
   const fetchData = async () => {
@@ -176,6 +183,7 @@ const Columns = (props) => {
       console.error(error);
     }
   }
+  
   useEffect(() => {
     fetchData()
   },[])
@@ -298,9 +306,9 @@ const Columns = (props) => {
       </div>
       <div >
       {columnName ? (
-          <LineChart apidata={colData} />
+          <LineChart apidata={colData}  ref={chartRef} />
         ) : (
-          <LineChart apidata={apiData} />
+          <LineChart apidata={apiData}  ref={chartRef}/>
         )}
       </div>
       <div className='table-header flex'>

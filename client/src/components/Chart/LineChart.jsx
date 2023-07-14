@@ -1,8 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState, useRef,useContext, forwardRef, useImperativeHandle } from 'react';
 import { Chart } from 'chart.js/auto';
 import './Chart.css';
+import zoomPlugin from 'chartjs-plugin-zoom';
 
-const LineChart = (props) => {
+const LineChart = forwardRef((props, ref) => {
+    Chart.register(zoomPlugin);
     const { apidata } = props;
     console.log(apidata, "response.data 1st time valaaaaa from chart");
 
@@ -154,12 +156,22 @@ const LineChart = (props) => {
         setChartInstance(chart);
     };
 
+    useImperativeHandle(ref, () => ({
+        getChartInstance: () => chartInstance,
+        resetZoom: () => {
+          if (chartInstance) {
+            chartInstance.resetZoom();
+          }
+        },
+      }));
+      
+
     return (
         <div className="chart_container">
             <canvas ref={chartRef}></canvas>
         </div>
     );
-};
+});
 
 export default LineChart;
 

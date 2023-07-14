@@ -16,7 +16,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import criton from '../images/criton.png';
 import Database1 from './Column/Columns';
 import Sidebar from './Sidebar';
-import config2 from "../config2.json";
+import config from "../config.json";
 import Database from '../components/Testing/Database';
 
 const drawerWidth = 240;
@@ -45,7 +45,7 @@ function ResponsiveDrawer(props) {
 
     const container = window !== undefined ? () => window().document.body : undefined;
 
-    const routes = Object.entries(config2.databases).flatMap(([key, database]) => {
+    const routes = Object.entries(config.databases).flatMap(([key, database]) => {
         const { db_name, db_columns } = database;
 
         // Add route for the database itself

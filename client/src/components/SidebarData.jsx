@@ -2,10 +2,10 @@ import React from "react";
 import * as IoIcons from "react-icons/io";
 import * as RiIcons from "react-icons/ri";
 import { AiFillDatabase } from "react-icons/ai";
-import config2 from "../config2.json";
+import config from "../config.json";
 
-const tabNames = Object.values(config2.databases).map(database => (database.db_name));
-const subTab = Object.values(config2.databases).map(database => Object.values(database.db_columns));
+const tabNames = Object.values(config.databases).map(database => (database.db_name));
+const subTab = Object.values(config.databases).map(database => Object.values(database.db_columns));
 
 const sidebarItems = tabNames.map((dataBaseName, index) => ({
 	title: dataBaseName,

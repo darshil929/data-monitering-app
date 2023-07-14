@@ -19,17 +19,6 @@ const columns = Object.keys(config.databases.db1_columns);
 const column_val = Object.values(config.databases.db1_columns);
 // console.log(column_val,'column_val')
 
-const oddIndices_db_values = db_values.filter((_, index) => index % 2 !== 0);
-
-let x;
-oddIndices_db_values.map((item, index) => {
-  x = item;
-  return x;
-});
-
-// const columns = Object.values(x)
-// const column_val = Object.keys(x)
-
 const RealTimeDataTable = ((props) => {
   const { apidata } = props;
   console.log(apidata.length, "response.data 1st time valaaaaa from table");

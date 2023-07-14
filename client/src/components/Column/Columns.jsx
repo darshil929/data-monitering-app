@@ -20,7 +20,7 @@ import jsPDF from "jspdf";
 import * as XLSX from "xlsx";
 import axios from 'axios'
 
-const Database1 = () => {
+const Columns = () => {
   const [open, setOpen] = React.useState(false);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -160,7 +160,7 @@ const Database1 = () => {
       const apiUrl = `http://localhost:8080/api/data?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}`;
       const response = await axios.get(apiUrl);
       setApiData(response.data);
-      // console.log(response.data, "response.data 1st time valaaaaa from database1");
+      console.log(response.data, "response.data 1st time valaaaaa from columns component");
     }
     catch (error) {
       console.error(error);
@@ -168,7 +168,7 @@ const Database1 = () => {
   }
   useEffect(() => {
     fetchData()
-  })
+  },[])
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -308,4 +308,4 @@ const Database1 = () => {
   );
 };
 
-export default Database1;
+export default Columns;

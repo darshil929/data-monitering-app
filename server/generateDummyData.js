@@ -13,22 +13,24 @@ function generateDataset() {
   const startDate = new Date('2023-01-01');
   const endDate = new Date('2023-12-31');
 
-  // Generate data every 30 seconds from start to end
+  // Generate data every 5 minutes from start to end
   let currentDate = startDate;
   while (currentDate <= endDate) {
     const timestamp = currentDate.toISOString();
-    const temperature = getRandomNumber(300, 999);
-    const pressure = getRandomNumber(100, 500);
-    const humidity = getRandomNumber(250, 750);
 
-    dataset.push({
-      timestamp,
-      temperature,
-      pressure,
-      humidity
-    });
+    // Generate random values for each column
+    const dataPoint = { timestamp };
+    for (let i = 0; i < 10; i++) {
+      const columnName = String.fromCharCode(65 + i); // A, B, C, ...
+      const minRange = i * 100;
+      const maxRange = (i + 1) * 100;
+      const value = getRandomNumber(minRange, maxRange);
+      dataPoint[columnName] = value;
+    }
 
-    currentDate.setTime(currentDate.getTime() + 30 * 1000); // Increment by 30 seconds
+    dataset.push(dataPoint);
+
+    currentDate.setTime(currentDate.getTime() + 5 * 60 * 1000); // Increment by 5 minutes
   }
 
   return dataset;
@@ -38,13 +40,13 @@ function generateDataset() {
 const dataset = generateDataset();
 
 // Convert the dataset to CSV format
-let csvContent = 'Timestamp,Temperature,Pressure,Humidity\n';
+let csvContent = 'Timestamp,A,B,C,D,E,F,G,H,I,J\n';
 dataset.forEach((dataPoint) => {
-  csvContent += `${dataPoint.timestamp},${dataPoint.temperature},${dataPoint.pressure},${dataPoint.humidity}\n`;
+  csvContent += `${dataPoint.timestamp},${dataPoint.A},${dataPoint.B},${dataPoint.C},${dataPoint.D},${dataPoint.E},${dataPoint.F},${dataPoint.G},${dataPoint.H},${dataPoint.I},${dataPoint.J}\n`;
 });
 
 // Save the dataset to a CSV file
-fs.writeFile('1.csv', csvContent, (err) => {
+fs.writeFile('demo.csv', csvContent, (err) => {
   if (err) throw err;
   console.log('Dataset saved to dataset.csv');
 });

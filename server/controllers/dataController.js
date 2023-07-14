@@ -2,8 +2,8 @@ const fs = require("fs");
 const csv = require("csv-parser");
 const Chance = require("chance");
 const chance = new Chance();
-// const filePath = "data.csv";
-const filePath = "1.csv";
+const filePath = "demo.csv";
+// const filePath = "1.csv";
 let clients = [];
 
 // function sendRealtimeData(data) {
@@ -51,7 +51,7 @@ const getData = (req, res) => {
         startDate || currentDate.toISOString().split("T")[0];
       const defaultEndDate = endDate || currentDate.toISOString().split("T")[0];
       const defaultStartTime = startTime || "00:00:00";
-      const defaultEndTime = endTime || "01:00:00";
+      const defaultEndTime = endTime || "23:00:00";
 
       // console.log(
       //   defaultStartDate,

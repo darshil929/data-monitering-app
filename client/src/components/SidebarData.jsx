@@ -9,18 +9,20 @@ const subTab = Object.values(config.databases).map(database => Object.values(dat
 
 const sidebarItems = tabNames.map((dataBaseName, index) => ({
 	title: dataBaseName,
-	path:  index === 0 ? "/" : `/${dataBaseName}`,
-	// path: "/",
+	path: index === 0 ? "/" : `/${dataBaseName}`,
 	icon: <AiFillDatabase className="sidebar-icon" />,
 	iconClosed: <RiIcons.RiArrowDownSFill className="sidebar-icon" />,
 	iconOpened: <RiIcons.RiArrowUpSFill className="sidebar-icon" />,
-	subNav: subTab[index].map((tableName, index) => ({
+	subNav: subTab[index]
+	  .filter((tableName) => tableName !== "Timestamp") // Exclude "Timestamp" table
+	  .map((tableName) => ({
 		title: tableName,
 		path: `/${dataBaseName}/${tableName}`,
 		icon: <IoIcons.IoIosPaper className="sidebar-icon" />,
 		iconClosed: <RiIcons.RiArrowDownSFill className="sidebar-icon" />,
 		iconOpened: <RiIcons.RiArrowUpSFill className="sidebar-icon" />,
-	}))
-}));
+	  })),
+  }));
+  
 
 export const SidebarData = sidebarItems;

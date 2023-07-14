@@ -1,6 +1,5 @@
 import * as React from 'react';
-import * as ReactDOM from "react-dom";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import PropTypes from 'prop-types';
 
@@ -15,7 +14,7 @@ import Toolbar from '@mui/material/Toolbar';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import criton from '../images/criton.png';
-import Database1 from './Databases/Database1';
+import Database1 from './Column/Columns';
 import Sidebar from './Sidebar';
 import config2 from "../config2.json";
 import Database from '../components/Testing/Database';
@@ -59,7 +58,6 @@ function ResponsiveDrawer(props) {
 
         return [databaseRoute, ...columnRoutes];
     });
-
 
     return (
         <Box sx={{ display: 'flex' }}>

@@ -10,7 +10,7 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 
-import config from "../config.json";
+import config from "../../config.json";
 
 const db_values = Object.values(config.databases);
 // const db_keys = Object.keys(config.databases)

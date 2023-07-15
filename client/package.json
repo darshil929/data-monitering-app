@@ -21,6 +21,7 @@
     "chartjs-plugin-zoom": "^2.0.1",
     "csv-parser": "^3.0.0",
     "date-fns": "^2.30.0",
+    "electron": "^25.3.0",
     "hammerjs": "^2.0.8",
     "html2pdf.js": "^0.10.1",
     "jspdf": "^2.5.1",

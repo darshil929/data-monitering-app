@@ -175,7 +175,8 @@ const Columns = (props) => {
   
   const fetchData = async () => {
     try {
-      const apiUrl = `http://localhost:8080/api/data?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}`;
+      // const apiUrl = `http://localhost:8080/api/data?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}`;
+      const apiUrl = `https://weary-jay-ring.cyclic.app/api/data?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}`;
       const response = await axios.get(apiUrl);
       setApiData(response.data);
       console.log(response.data, "response.data 1st time valaaaaa from columns component");

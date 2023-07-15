@@ -18,6 +18,7 @@ import criton from "../../images/criton.png";
 
 import jsPDF from "jspdf";
 import * as XLSX from "xlsx";
+import autoTable from "jspdf-autotable";
 import axios from 'axios'
 
 const Columns = (props) => {

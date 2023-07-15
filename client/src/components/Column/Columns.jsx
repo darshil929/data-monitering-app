@@ -33,10 +33,17 @@ const Columns = (props) => {
   const {columnName} = props;
 
   const [open, setOpen] = React.useState(false);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  // const [startDate, setStartDate] = useState("");
+  // const [endDate, setEndDate] = useState("");
+  // const [startTime, setStartTime] = useState("");
+  // const [endTime, setEndTime] = useState("");
+  const [startDate, setStartDate] = useState(
+    new Date().toISOString().slice(0, 10)
+  );
+  const [endDate, setEndDate] = useState(new Date().toISOString().slice(0, 10));
+  const [startTime, setStartTime] = useState("00:00:00");
+  const [endTime, setEndTime] = useState("23:00:00");
+
   const [apiData, setApiData] = useState([]);
 
   // Convert string to ArrayBuffer
@@ -85,9 +92,19 @@ const Columns = (props) => {
       const doc = new jsPDF();
 
       const header = function (data) {
-        doc.setFontSize(18);
+        doc.setFontSize(10);
         doc.setTextColor(40);
-        doc.text("Content", data.settings.margin.left, 35);
+        // doc.text("Content", data.settings.margin.left, 35);
+        doc.text(
+          `Start DateTime: ${startDate} - ${startTime}`,
+          data.settings.margin.left,
+          35
+        );
+        doc.text(
+          `End DateTime: ${endDate} - ${endTime}`,
+          data.settings.margin.left,
+          45
+        );
         doc.addImage(
           criton,
           "PNG",
@@ -96,11 +113,11 @@ const Columns = (props) => {
           60,
           20
         );
-        doc.text(
-          "Header bottom margin",
-          data.settings.margin.left,
-          doc.internal.pageSize.height - 20
-        );
+        // doc.text(
+        //   "Header bottom margin",
+        //   data.settings.margin.left,
+        //   doc.internal.pageSize.height - 20
+        // );
       };
 
       const footer = function (data) {
@@ -136,9 +153,10 @@ const Columns = (props) => {
         body: data,
         startY: 50,
         didDrawPage: function (data) {
-          header(data);
+          if (data.pageNumber === 1) {
+            header(data);
+          }
           footer(data);
-          // additionalContent(data);
         },
       });
 

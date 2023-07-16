@@ -1,6 +1,8 @@
 {
-  "name": "trial-ui",
-  "version": "0.1.0",
+  "name": "data-monitoring-app",
+  "description": "data visualizing app",
+  "version": "1.0.0",
+  "author": "Criton Technology and Automation PVT. LTD.",
   "private": true,
   "main": "main.js",
   "homepage": "./",
@@ -21,7 +23,6 @@
     "chartjs-plugin-zoom": "^2.0.1",
     "csv-parser": "^3.0.0",
     "date-fns": "^2.30.0",
-    "electron": "^25.3.0",
     "hammerjs": "^2.0.8",
     "html2pdf.js": "^0.10.1",
     "jspdf": "^2.5.1",
@@ -45,7 +46,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron": "electron ."
+    "electron": "electron .",
+    "dist": "electron-packager ."
   },
   "eslintConfig": {
     "extends": [
@@ -66,6 +68,8 @@
     ]
   },
   "devDependencies": {
+    "electron": "^25.3.0",
+    "electron-packager": "^17.1.1",
     "source-map-loader": "^4.0.1"
   }
 }

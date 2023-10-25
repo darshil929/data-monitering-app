@@ -37,22 +37,6 @@
               "username": "user",
               "password": "pass"
           }
-      },
-      "db3": {
-          "db_name": "KREENA",
-          "db_columns": {
-              "column1": "D",
-              "column2": "E",
-              "column3": "B",
-              "column4": "U",
-              "column5": "G"
-          },
-          "db_info": {
-              "db_path": "path",
-              "db_type": "type",
-              "username": "user",
-              "password": "pass"
-          }
       }
   }
 }
